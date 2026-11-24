@@ -1238,7 +1238,7 @@ document.addEventListener("click", event => {
 });
 document.addEventListener("visibilitychange", syncMusic);
 window.addEventListener("pagehide", pauseMusic);
-window.addEventListener("pageshow", syncMusic);
+window.addEventListener("pageshow", event => { if (event.persisted) syncMusic(); });
 
 function go(name){
   clearInterval(timerId);timerId=null;
@@ -1492,7 +1492,7 @@ function loadMath(){
   const load=(url,next)=>{const script=document.createElement("script");script.src=base+url;script.onload=next;document.head.append(script)};
   load("katex.min.js",()=>load("contrib/auto-render.min.js",()=>renderMath($("s-question"))));
 }
-renderTeamNameInputs();updateQSetStatus();soundLabel();musicLabel();tryResume();loadMath();
+renderTeamNameInputs();updateQSetStatus();soundLabel();musicLabel();tryResume();syncMusic();loadMath();
 for(let i=0;i<9;i++){const star=document.createElement("span");star.className="glint";star.setAttribute("aria-hidden","true");star.textContent="✦";star.style.cssText=`top:${8+i*10}%;left:${i%2?6:90}%;animation-delay:${i*-.21}s`;document.querySelector(".lucky-card").append(star)}
 
 </script></body></html>
