@@ -1,0 +1,1425 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>별빛 선술집 · 팀 퀴즈 배틀</title>
+<style>
+:root{--wood-dark:#2a1a10;--wood:#5a3a22;--wood-light:#8a5a32;--parchment:#efe0bd;--parchment-dark:#c9ad78;--ink:#2b1d12;--gold:#e0b04a;--candle:#ffb347;--wax-red:#9c2a22;--emerald:#3f8f5a;--serif:"Gowun Batang","Malgun Gothic",serif;--grain:repeating-linear-gradient(2deg,#d19a5422 0 1px,transparent 2px 8px,#29190c33 9px 11px,transparent 13px 25px);--paper:radial-gradient(ellipse at 3% 5%,#bf904d44,transparent 22%),radial-gradient(ellipse at 97% 99%,#aa763936,transparent 25%),linear-gradient(110deg,#f0dfb9,#f8edcf 51%,#e9d3a7)}
+*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0;color:#f3e6c9;font:16px/1.5 "Malgun Gothic",sans-serif;min-height:100vh;background:radial-gradient(ellipse at 50% 48%,transparent 30%,#0b0908b8 100%),repeating-linear-gradient(178deg,transparent 0 5px,#9c724410 6px 7px,transparent 8px 16px),repeating-linear-gradient(0deg,#30241c 0,#30241c 70px,#1b1612 73px,#473326 76px,#392a20 79px,#35271e 145px);font-variant-numeric:tabular-nums}
+.atlas{position:absolute;width:0;height:0;overflow:hidden}.ambient{position:fixed;top:61px;width:100px;height:108px;z-index:-1;pointer-events:none}.ambient.left{left:2%}.ambient.right{right:2%}.ambient:before{content:"";position:absolute;inset:-70px;background:radial-gradient(ellipse,#ffb34738,transparent 66%);animation:flicker 2.8s ease-in-out infinite alternate}.ambient svg{width:100%;height:100%;position:relative}header{position:sticky;top:0;z-index:8;height:61px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,80px);border-bottom:1px solid #aa85464a;background:#171611e8}.brand{display:flex;align-items:center;gap:10px;color:#e4c079;font:700 20px var(--serif);letter-spacing:.06em}.brand svg{width:30px;height:30px}button,.filebtn{font:700 15px "Malgun Gothic",sans-serif;line-height:1.3;cursor:pointer;padding:.62em 1em;border:1px solid #967b4c;border-radius:5px;background:#372c20;color:#f5e8c9;transition:transform .16s,opacity .16s}button:hover:not(:disabled),.filebtn:hover{filter:brightness(1.12)}button:focus-visible,input:focus-visible,.filebtn:focus-within{outline:3px solid #c78d2d;outline-offset:3px}button:disabled{opacity:.45;cursor:default}nav,footer>div,.actions,.row,.teampick{display:flex;gap:9px;align-items:center;flex-wrap:wrap}nav button,footer button{background:#241e18;border-color:#736044;font-size:14px}button.primary,.btn.gold,.btn.green{background:linear-gradient(#f2d798,#d6ad62);border:1px solid #87632f;color:#2e2317;box-shadow:inset 0 0 0 2px #ead098,0 3px 0 #795b32}.primary,.btn.lg{padding:.8em 1.5em;font-size:18px}
+.screen{display:none}.screen.active{display:block}.center.active{min-height:calc(100vh - 61px);display:grid;place-items:center;padding:28px}.sheet{background:var(--paper);color:var(--ink);border:1px solid #ad8d58;outline:1px solid #b598674f;outline-offset:-7px;box-shadow:0 12px 32px #100b0880;position:relative;border-radius:4px}.sheet button:not(.primary):not(.green):not(.gold),.sheet .filebtn{background:#f5e6c6;color:var(--ink);border-color:#ac9165}h1,h2,p{margin:0}h1,h2,.ribbon,.lbl,.rankname,.tscore,.lucky-card{font-family:var(--serif);font-weight:700}h2{font-size:clamp(27px,2.5vw,42px)}.panel{width:min(850px,95vw);text-align:center;padding:clamp(25px,3.5vw,65px)}.panel h1,.ceremony h1{font-size:clamp(36px,4vw,70px)}.panel p{margin:12px 0 22px}.eyemark{color:#89622b}
+#s-setup.active{display:grid;place-items:center;min-height:calc(100vh - 61px);padding:28px}.setup-board{display:grid;grid-template-columns:1fr 1.08fr;width:min(1080px,90vw);background:var(--grain),linear-gradient(115deg,#60402a,#422a1b);border:7px ridge #78573a;border-radius:12px;box-shadow:0 24px 54px #0b0807ab;padding:17px;align-items:stretch}.sign{display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;margin:13px 22px 13px 5px;text-align:center;color:#f5dba2;background:radial-gradient(ellipse at 50% 34%,#315046,#142e29 68%);border:1px solid #b3965d;outline:1px solid #957b4d;outline-offset:-7px;border-radius:75px 75px 6px 6px;box-shadow:0 6px 12px #1b110c7d;padding:30px 8px 40px}.sign:after{content:"✧";color:#c9a767;margin-top:20px;font:24px Georgia}.hero-art{width:94%;max-height:250px;filter:drop-shadow(1px 7px 5px #091a15aa)}.edition{font-size:14px;color:#e1cda6;letter-spacing:.14em;margin:10px 0}.sign h1{font-size:clamp(38px,4vw,65px);line-height:1.3}.subtitle{display:flex;align-items:center;gap:13px;font:700 22px var(--serif);margin-top:8px}.subtitle i{width:35px;height:1px;background:#b99960}
+.setup-sheet{padding:24px clamp(24px,2.8vw,48px)}.setup-sheet:before,.setup-sheet:after{content:"";position:absolute;top:12px;width:7px;height:7px;border-radius:50%;background:radial-gradient(at 30% 25%,#f7da8f,#8b642c 65%);box-shadow:1px 2px 1px #604b3588}.setup-sheet:before{left:13px}.setup-sheet:after{right:13px}.setup-sheet h2{padding-bottom:10px;border-bottom:3px double #ae9469;margin-bottom:14px}.settings{display:grid;grid-template-columns:1fr 1fr;gap:20px}.fld{display:block;font-weight:700;font-size:15px;margin:7px 0;color:#56402a}.step{display:flex;align-items:center;justify-content:space-between;border:1px solid #b29b74;border-radius:4px;background:#fffbec61;padding:3px}.step button{border:0!important;background:none!important;padding:4px 10px;font-size:21px}.step input{appearance:textfield;width:3ch;border:none;background:transparent;text-align:right;font:inherit;color:inherit}.step input::-webkit-inner-spin-button{display:none}.step b{font-size:19px}#teamNames{display:grid;gap:5px}.teamrow{display:flex;align-items:center;gap:8px}.crest{display:inline-grid;place-items:center;color:#fff0d2;background:var(--team);clip-path:polygon(0 0,100% 0,100% 70%,50% 100%,0 70%);width:27px;height:31px;flex:none;font:700 17px Georgia;padding-bottom:3px}.teamrow input,.editteam input{width:100%;min-width:0;font:inherit;border:1px solid #b29b74;border-radius:3px;background:#fff9e999;color:var(--ink);padding:5px 10px}.sethead{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #bea981;margin-top:14px;padding-top:6px}#qsetStatus{color:#36533a;font-weight:700;font-size:14px}.drop{border:1px dashed #977f53;border-radius:4px;padding:9px;display:flex;align-items:center;gap:10px}.drop.over{background:#fff2b9;outline:2px solid #9d702f}.drop span,.setlinks button,#setupMsg{font-size:13px}.setlinks{display:flex;justify-content:flex-end;gap:12px;margin:5px 0}.setlinks button{background:none!important;border:0;padding:3px;color:#5c452c!important;text-decoration:underline;text-underline-offset:3px}.start{width:100%;display:flex;justify-content:space-between;margin-top:9px}.start span{font-family:Georgia}.orderchip{display:flex;align-items:center;gap:16px;border-bottom:1px solid #baa17a;padding:10px;font:700 21px var(--serif);animation:drop .4s both}.orderchip small{font:14px sans-serif;color:#60482e}#orderList{margin:22px auto;max-width:420px}
+#s-board.active{height:calc(100dvh - 61px);display:flex;flex-direction:column;align-items:center;gap:8px;padding:8px 22px 9px}.ribbon{padding:4px 47px;background:linear-gradient(90deg,#c99b52,#f6dfa5,#c99b52);color:var(--ink);clip-path:polygon(0 0,100% 0,97% 50%,100% 100%,0 100%,3% 50%);text-align:center;font-size:clamp(20px,2.5vh,35px)}.scoreboard{display:flex;justify-content:center;gap:8px;width:min(100%,1150px)}.scorecard{min-width:0;flex:1;max-width:240px;border:1px solid #847154;background:#25251f;padding:4px 12px;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:5px;color:#f6e9ce}.scorecard.turn{border:2px solid #e0b563;box-shadow:0 0 10px #daad5859;animation:pulse 2s infinite alternate}.scorecard .tname,.rankname{overflow-wrap:anywhere}.scorecard .tname{line-height:1.15;font-weight:700;max-height:2.4em;overflow:hidden}.tscore{font-size:clamp(22px,2.6vh,36px);color:#ffe3a1}.shields{font-size:13px;white-space:nowrap}.tabletop{min-height:0;flex:1;width:min(100%,calc((100dvh - 202px)*1.54),1500px);padding:clamp(8px,1.2vh,18px) clamp(14px,2vw,40px);border:7px ridge #815a36;box-shadow:0 10px 19px #0b0907aa,inset 0 0 36px #24170c9c;background:var(--grain),linear-gradient(105deg,#69472d,#815b36 45%,#583b27);border-radius:14px;position:relative}#grid{height:100%;display:grid;grid-template-columns:repeat(10,minmax(0,1fr));grid-template-rows:repeat(5,minmax(0,1fr));gap:clamp(5px,.8vh,12px)}.qcard,.flying-card,.hidden-reward{position:relative;border:1px solid #d7b770;border-radius:5px;background:repeating-linear-gradient(45deg,#d9bc7c08 0 1px,transparent 1px 5px),linear-gradient(125deg,#244343,#152b30);box-shadow:0 3px 4px #1a130eb0,inset 0 0 0 3px #1e3536,inset 0 0 0 4px #a58c5b;display:flex;align-items:center;justify-content:center;color:#f5dea5;transform:rotate(var(--tilt,0deg));padding:0}.qcard svg,.flying-card svg{width:48%;height:40%;position:absolute;top:9%;opacity:.8}.lbl{font:700 clamp(18px,3.5vh,43px) Georgia,"Malgun Gothic",serif;margin-top:48%;line-height:1}.qcard:hover:not(:disabled){transform:translateY(-6px);z-index:2;box-shadow:0 8px 9px #1d140fbb,0 0 7px #d8b870}.qcard.done{background:#3726196b;border:1px dashed #c7996459;box-shadow:inset 0 2px 6px #20160e72;opacity:.7}.qcard.done>*{visibility:hidden}footer{width:min(1150px,100%);display:flex;align-items:center;justify-content:space-between;font-size:15px}footer .btn,footer button{padding:5px 11px}.dealer{position:absolute;bottom:-6px;left:50%;width:62px;height:87px;background:#183638;border:3px double #c3a064;border-radius:6px;box-shadow:2px 3px #84673e,4px 6px #493922;z-index:5}.dealer svg{position:absolute;width:100px;height:75px;left:40%;top:24px}.flying-card{position:fixed;pointer-events:none;z-index:10}.flying-card.front{background:var(--paper);color:var(--ink);box-shadow:0 10px 30px #1b110980}.flying-card.front svg{position:static}
+#s-question{width:min(1500px,94vw);margin:20px auto}.question-sheet{padding:clamp(22px,2.2vw,42px)}.question-meta{display:flex;align-items:center;gap:14px;font-weight:bold;border-bottom:2px solid #b09870;padding-bottom:10px;margin-bottom:14px}.question-meta b{font:700 24px var(--serif)}#qSubject{background:#314d43;color:#fff1cb;padding:4px 12px}#qStars{color:#79581e}#qStageTurn{color:#594733}.timer{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:clamp(22px,2vw,38px);line-height:1.2}.timer svg{width:30px;height:38px}.timer.warn{color:#902820;animation:pulse .65s infinite alternate}.timer.done,.stamp{color:#922c21;font-weight:900}.qtext{font-weight:700;line-height:1.42;overflow-wrap:anywhere}.len-s{font-size:clamp(34px,3.55vw,72px)}.len-m{font-size:clamp(30px,2.9vw,56px)}.len-l{font-size:clamp(29px,2.45vw,49px)}.len-xl{font-size:clamp(28px,2.1vw,44px)}.qtable{border-collapse:collapse;font-size:.8em;margin:8px 0}.qtable td{border:1px solid #9c8561;padding:2px 12px}.qspace{height:.28em}.qfig svg{display:block;width:auto;max-width:100%;height:clamp(137.5px,24.2vh,302.5px);margin:8px auto}.qchoices,.chcol{display:grid;gap:6px}.qchoices{margin:12px 0}.withfig{grid-template-columns:minmax(0,.935fr) minmax(0,1.065fr);align-items:center}.choice{font-weight:700;font-size:clamp(24px,1.72vw,37px);padding:1px 9px;line-height:1.4}.choice.correct{border-radius:12px;outline:3px solid #ad7b23;background:#f5d788}.cnum{color:#795521;margin-right:12px}.ox{display:flex;justify-content:center;gap:24px}.ox .choice{font:700 48px Georgia;padding:8px 34px;border:2px solid #9d8255;border-radius:7px}.actions,.row,.teampick{justify-content:center}.actions{padding:14px;background:var(--grain),#463122;border-radius:0 0 8px 8px}.answer-reveal,.explain{display:flex;align-items:center;gap:12px;background:#ead8a8;border-left:4px solid #8e713e;padding:9px 12px;margin-top:10px;font-size:clamp(19px,1.6vw,32px);animation:drop .3s ease}.answer-reveal svg,.stamp svg{height:38px;width:38px}.lab{font-weight:700;margin-right:10px;color:#604626;white-space:nowrap}
+.lucky-card{background:radial-gradient(ellipse,#fde7a0,#d5ab54);color:#34291d;text-align:center;padding:40px clamp(28px,5vw,95px);border:8px double #916e30;border-radius:16px;box-shadow:0 0 85px #e4b74c55;position:relative}.lucky-card>svg{width:130px;height:130px;margin-top:12px}.lucky-card h1{font:700 clamp(62px,8vw,120px) Georgia;letter-spacing:.06em}.lucky-card p{font-size:21px}.lucky-card button{margin-top:22px}.chest-art{width:220px;height:150px;display:block;margin:0 auto;filter:drop-shadow(0 5px 4px #59452455)}.rays{opacity:.8;transform-origin:50% 55%;animation:beam .45s ease-out}.open-chest .lid{animation:lift-lid .4s ease-out;transform:translateY(-16px) rotate(-4deg);transform-origin:85% 35%}.open-chest{animation:open-glow .4s ease-out;background:radial-gradient(ellipse at 50% 40%,#fff9b7,transparent 62%)}.shaking{animation:shake .18s infinite alternate}.teampick button{min-width:115px;padding:12px}.teampick .crest{display:grid;margin:0 auto 7px}.ps{display:block;font-size:14px;margin:3px}.reveal-big{font:700 clamp(26px,3.7vw,60px) var(--serif);border:4px double currentColor;padding:14px;margin:10px auto;max-width:630px;animation:drop .4s both;background:#fff4d3}.plus{color:#2b6540}.minus,.danger{color:#8d302a}.chance{color:#624b83}.special,.reverse{color:#365b65}.jackpot{color:#845100;background:#ffe299}.hidden-reward{width:82px;height:114px;margin:0 auto 10px}.hidden-reward svg{width:70%;height:75px}.modal .hidden-reward{float:right;transform:rotate(4deg);margin:0 0 12px 16px}.modal .row{clear:both;margin-top:16px}.reveal-desc{font-size:21px}#boxStage .scoreboard{margin:18px auto}.ceremony{text-align:center;width:min(100%,1050px)}.ceremony h1{color:#f6da93}.podium{display:flex;justify-content:center;align-items:end;gap:8px;margin:35px 0 18px}.place{flex:1;max-width:260px;background:var(--grain),linear-gradient(#785532,#4b3323);border:3px ridge #ad8b59;border-radius:6px 6px 0 0;padding:16px 5px}.place .crest{width:43px;height:49px;font-size:25px}.place[data-rank="1"]{padding-bottom:62px;border-color:#ddba71}.place[data-rank="2"]{padding-bottom:36px}.place strong,.place b{display:block}.rankname{font-size:22px}.rankrow{margin:6px auto;background:var(--paper);color:var(--ink);padding:7px 16px;max-width:560px;display:flex;justify-content:space-between}.ceremony .primary{margin-top:12px}.modal-bg{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:20px;background:#100d0ac9;z-index:30}.modal-bg.show{display:flex}.modal{padding:27px;max-height:90dvh;overflow:auto;width:min(590px,96vw)}.modal h2{margin-bottom:10px}.help-list p{margin:8px 0}.mini-icon{display:inline-grid;place-items:center;border:2px double currentColor;min-width:28px;margin-right:6px}.editteam{display:grid;grid-template-columns:minmax(50px,1fr) auto 85px auto 70px;gap:8px;align-items:center;margin:7px 0}.editteam .en{overflow-wrap:anywhere}.filebtn{display:inline-block;margin:12px 0}.imp-msg,.err{color:#892a23}.btn.sm{font-size:14px}.rain{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:12}.rain i{position:absolute;top:-20px;border-radius:50%;background:#f7cd68;border:2px double #b88e3d;width:13px;height:19px;animation:fall 1.25s ease-in both}.glint{position:absolute;color:#fff8c3;pointer-events:none;animation:flicker 1.3s infinite alternate}.flash{background:radial-gradient(ellipse,#fff5ad88,transparent 74%);animation:fade .36s backwards}.dark-flash{background:#100b09;animation:darken .4s forwards}.stamp{display:inline-flex;align-items:center;gap:5px}.shield-hit{display:inline-block;animation:block .35s ease-out}.reverse-icon{display:inline-block;animation:turn .5s ease-out}.teampick button:disabled{opacity:.45}
+@keyframes beam{from{transform:scaleY(0);opacity:0}}@keyframes lift-lid{from{transform:none}}@keyframes open-glow{from{opacity:.3;transform:scale(.9)}}@keyframes block{from{transform:translateX(-80px) scale(1.4)}}@keyframes turn{from{transform:rotate(-180deg)}}@keyframes darken{from{opacity:.55}to{opacity:0}}@keyframes fade{from{opacity:1}to{opacity:0}}@keyframes flicker{from{opacity:.55}to{opacity:1}}@keyframes pulse{from{opacity:.84}to{opacity:1}}@keyframes drop{from{transform:translateY(-15px);opacity:0}to{transform:none;opacity:1}}@keyframes shake{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}@keyframes fall{to{transform:translateY(106vh) rotate(240deg);opacity:.15}}
+@media(max-width:760px){.setup-board{display:block;width:100%;padding:9px}.sign{border-radius:5px;margin:0 0 8px;padding:12px;display:grid;grid-template-columns:95px 1fr}.hero-art{grid-row:1/4;width:95px}.edition{font-size:12px;margin:0}.sign h1{font-size:32px}.subtitle{justify-content:center;font-size:16px;margin:0}.sign:after{display:none}#s-setup.active{padding:12px}.setup-sheet{padding:20px}.scorecard{padding:3px;gap:2px;flex-wrap:wrap}.scorecard .crest{display:none}nav{gap:3px}nav button{padding:5px}.brand{font-size:15px;gap:4px}.brand svg{width:19px}.question-meta{gap:4px;flex-wrap:wrap}.withfig{grid-template-columns:1fr}.tabletop{padding:6px}.scoreboard{gap:3px}#s-board.active{padding:6px}.ambient{display:none}.drop{flex-wrap:wrap}.podium{flex-wrap:wrap}.place{min-width:100px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rain{display:none}.qcard:hover:not(:disabled){transform:none}}
+.board-status-rail,.board-status{display:contents}
+@media (min-width:900px) and (min-height:570px) and (orientation:landscape){
+  #s-board.active{
+    display:grid;
+    grid-template-columns:clamp(230px,20vw,365px) minmax(0,1fr);
+    grid-template-rows:minmax(0,1fr) auto;
+    column-gap:clamp(16px,1.5vw,32px);
+    row-gap:10px;
+    align-items:stretch;
+    width:min(100%,calc(158dvh + 290px));
+    margin-inline:auto;
+    padding:clamp(12px,1.6vh,23px) clamp(16px,2vw,40px) 10px;
+  }
+  .board-status-rail{
+    grid-column:1;grid-row:1;
+    display:flex;flex-direction:column;min-height:0;
+  }
+  .board-status-rail::before{
+    content:"";
+    /* About half a card; yield the space when a tall roster needs it. */
+    flex:0 1 calc(9.5dvh - 14px);
+  }
+  .board-status{
+    display:flex;flex-direction:column;flex:none;
+    gap:clamp(12px,1.8vh,22px);
+    padding:clamp(12px,1.1vw,22px);
+    border:1px solid #806541;border-radius:9px;
+    background:linear-gradient(125deg,#292c24,#1c201a);
+    box-shadow:inset 0 0 0 4px #20231c,0 5px 14px #130e0a80;
+  }
+  .board-status .ribbon{
+    padding:9px 15px;
+    font-size:clamp(23px,2.8vh,34px);line-height:1.25;
+    word-break:keep-all;overflow-wrap:anywhere;
+  }
+  #scoreboard{width:100%;display:grid;gap:clamp(5px,.9vh,13px)}
+  #scoreboard .scorecard{
+    display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+    grid-template-areas:"crest name name" "crest score shields";
+    column-gap:clamp(9px,1vw,18px);row-gap:2px;
+    max-width:none;padding:clamp(5px,1vh,13px) clamp(8px,1vw,18px);
+    border-width:2px;background:#30332b;
+  }
+  #scoreboard .scorecard.turn{background:#413a28}
+  #scoreboard .crest{grid-area:crest;width:clamp(30px,2.5vw,46px);height:clamp(35px,3vw,54px);font-size:clamp(20px,1.6vw,30px)}
+  #scoreboard .tname{grid-area:name;font-size:clamp(17px,2.1vh,24px)}
+  #scoreboard .tscore{grid-area:score;font-size:clamp(26px,3.8vh,46px);line-height:1.05;overflow-wrap:anywhere}
+  #scoreboard .shields{grid-area:shields;font-size:clamp(15px,1.8vh,23px)}
+  #s-board .tabletop{grid-column:2;grid-row:1;width:100%;min-width:0;padding-inline:clamp(11px,1.15vw,25px)}
+  #s-board footer{grid-column:2;grid-row:2;width:100%}
+}
+@media (min-width:900px) and (min-height:570px) and (max-height:650px) and (orientation:landscape){
+  .board-status{padding:8px;gap:8px}
+  .board-status .ribbon{padding-block:5px;font-size:20px}
+  #scoreboard{gap:4px}
+  #scoreboard .scorecard{padding:3px 8px;gap:1px 8px}
+  #scoreboard .tname{font-size:16px}
+  #scoreboard .tscore{font-size:24px}
+}
+</style>
+</head><body>
+<svg class="atlas" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+<symbol id="star" viewBox="0 0 100 100"><g fill="none" stroke="currentColor"><circle cx="50" cy="50" r="34"/><circle cx="50" cy="50" r="31" stroke-dasharray="1 4"/><path d="m23 23 27 15 27-15-15 27 15 27-27-15-27 15 15-27z"/><path d="m50 3 8 37 38 10-38 8-8 39-9-39L4 50l37-10z"/></g><path fill="currentColor" d="m50 3 0 47-9-10zm46 47H50l8-10zM50 97V50l8 8zM4 50h46l-9 8z"/><circle cx="50" cy="50" r="4" fill="currentColor"/></symbol>
+<symbol id="candle" viewBox="0 0 80 110"><ellipse cx="40" cy="103" rx="33" ry="5" fill="#140f0c"/><g stroke="#937047" stroke-width="2" fill="#6c5135"><path d="M13 90q27 20 54 0l-6 10q-20 10-42 0z"/><path d="M46 75q27-28 25-6 0 13-17 20l1-5q12-7 11-15 0-7-15 9z"/></g><path fill="#b58c52" d="M27 45q11-5 24 0v47q-11 5-24-1z"/><path fill="#f3d7a1" d="M27 45q11-6 24 0v7q-2 6-4 0v-3q-3 0-3 9t-5 0v-9q-3 0-3 5t-4 0v-5l-5 2z"/><path d="M38 46v-9" stroke="#3b241c" stroke-width="2"/><path d="M39 40Q24 35 35 19q5-7 7-17 2 10 6 20 5 13-9 18z" fill="#ffa847"/><path d="M39 39q-7-4-2-12l4-8q7 16-2 20z" fill="#fff1bb"/></symbol>
+<symbol id="card-art" viewBox="0 0 120 178"><rect x="1" y="1" width="118" height="176" rx="7" fill="#183638" stroke="#d2af70" stroke-width="2"/><rect x="6" y="6" width="108" height="166" rx="4" fill="none" stroke="#ad884f"/><path d="M12 36V12h24m48 0h24v24m0 106v24H84m-48 0H12v-24M12 24l12-12m72 0 12 12m0 130-12 12m-72 0-12-12" fill="none" stroke="#cbae71"/><g fill="#e7c785"><path d="m60 16 2 6 6 2-6 2-2 6-2-6-6-2 6-2zm0 131 2 5 6 2-6 2-2 6-2-6-6-2 6-2z"/></g><g stroke="#947747" fill="none"><path d="m60 33 42 56-42 55-42-55z"/><ellipse cx="60" cy="89" rx="36" ry="47" stroke-dasharray="2 4"/></g><use href="#star" x="18" y="47" width="84" height="84" color="#ebcc86"/></symbol>
+<symbol id="chest" viewBox="0 0 240 155"><ellipse cx="119" cy="144" rx="102" ry="8" fill="#301f19" opacity=".4"/><g stroke="#352619" stroke-width="3" stroke-linejoin="round"><path fill="#92552c" d="m25 71 134 11 55-26-3 66-52 25-132-16z"/><path fill="#593e29" d="m159 82 55-26-3 66-52 25z"/><path fill="#cba45c" d="m26 116 133 16 52-24v10l-52 25-133-16z"/><g class="lid"><path fill="#ad713d" d="M24 73q-1-40 24-54l127 9q33-2 40 31l-55 27z"/><path fill="#684328" d="M160 86q-3-43 19-57 27-3 36 30z"/><path fill="#ceab60" d="M40 75q0-40 22-55l12 1Q54 42 53 76zm85 8q0-41 23-57l13 1q-23 23-23 57z"/><path fill="#d8b365" d="m23 67 137 13 55-26v9l-55 26L23 76z"/></g><path fill="#dbb45c" d="m85 77 18 2v18l-9 6-9-8z"/><circle cx="94" cy="87" r="2.5"/></g></symbol>
+<symbol id="hand" viewBox="0 0 140 90"><path fill="#ce996b" stroke="#69472f" stroke-width="2" d="m130 76-27 10-30-20-19-8-26-4q-8-2-3-7l23 1-30-8q-5-5 1-7l31 5-29-12q-5-6 2-7l32 10-24-13q-3-5 3-6l39 15 14 12-6-13q-1-9 6-7l18 21 8 17z"/><path fill="#45605b" stroke="#b59a5d" stroke-width="4" d="m93 66 21-21 26 18v27h-15z"/></symbol>
+<symbol id="clover" viewBox="0 0 100 100"><g fill="#315e43" stroke="#d5b45d" stroke-width="2"><path id="leaf" d="M50 50Q16 35 24 19q6-10 17-4 3-14 16-11 18 4-7 46z"/><use href="#leaf" transform="rotate(90 50 50)"/><use href="#leaf" transform="rotate(180 50 50)"/><use href="#leaf" transform="rotate(270 50 50)"/></g><path d="M50 49q8 27 30 43" fill="none" stroke="#315e43" stroke-width="5"/></symbol>
+<symbol id="seal" viewBox="0 0 64 64"><path fill="#922f28" stroke="#65261c" stroke-width="2" d="M31 3q8-2 13 4l10 5 3 10q7 7 3 15l-4 11-10 6q-7 8-16 5l-11-2-7-8q-9-4-8-14l1-10q0-9 9-13l8-6z"/><circle cx="32" cy="32" r="20" fill="none" stroke="#d67a59"/><path d="m22 32 7 7 14-17" stroke="#f3ce9b" stroke-width="4" fill="none"/></symbol>
+</defs></svg>
+<div class="ambient left"><svg><use href="#candle"/></svg></div><div class="ambient right"><svg><use href="#candle"/></svg></div>
+<header><div class="brand"><svg><use href="#star"/></svg> 별빛 선술집</div><nav>
+<button id="btnAnswerKey" onclick="openAnswerKey()" hidden>정답지</button><button id="btnSound" onclick="toggleSound()"></button><button onclick="openHelp()">도움말</button><button id="btnNewGame" onclick="resetGame()" hidden>새 게임</button></nav></header>
+<main>
+<section class="screen active" id="s-setup"><div class="setup-board">
+<div class="sign"><svg class="hero-art" viewBox="0 0 420 260" aria-hidden="true">
+<g fill="none" stroke="#d1aa67"><ellipse cx="206" cy="123" rx="121" ry="102" opacity=".36"/><ellipse cx="206" cy="123" rx="131" ry="111" stroke-dasharray="1 7"/><path d="m33 168 39-29m262-70 34-27m-20 167 30 9M70 55l27 14" opacity=".6"/></g>
+<g fill="#e3be78"><path d="m63 81 3 9 9 3-9 3-3 10-3-10-10-3 10-3zm293 29 2 7 8 3-8 2-2 8-3-8-7-2 7-3zM92 198l2 5 6 2-6 2-2 6-2-6-5-2 5-2z"/></g>
+<g transform="translate(99 51) rotate(-22 60 90)"><use href="#card-art" width="120" height="178"/></g>
+<g transform="translate(149 29) rotate(-4 60 90)"><use href="#card-art" width="120" height="178"/></g>
+<g transform="translate(196 42) rotate(17 60 90)"><use href="#card-art" width="120" height="178"/></g>
+<g transform="translate(253 212) rotate(-12)" stroke="#9a6e32" fill="#d4aa5d"><ellipse cy="5" rx="23" ry="8"/><ellipse rx="23" ry="8"/><ellipse rx="16" ry="4" fill="none"/></g></svg>
+<div class="edition">중학교 2학년 · 기말고사</div><h1>별빛 선술집</h1><div class="subtitle"><i></i>팀 퀴즈 배틀<i></i></div>
+</div>
+<div class="sheet setup-sheet"><h2>모험 준비</h2>
+<div class="settings"><div><label class="fld">참가 팀</label><div class="step"><button aria-label="팀 줄이기" onclick="changeTeamCount(-1)">−</button><b><span id="teamCountLbl">3</span>팀</b><button aria-label="팀 늘리기" onclick="changeTeamCount(1)">＋</button></div></div>
+<div><label class="fld" for="timeLimit">문제당 제한 시간</label><div class="step"><button onclick="changeTime(-5)" aria-label="5초 줄이기">−</button><b><input id="timeLimit" type="number" value="30" min="5" step="5">초</b><button onclick="changeTime(5)" aria-label="5초 늘리기">＋</button></div></div></div>
+<div class="fld">팀 이름</div><div id="teamNames"></div>
+<div class="sethead"><b class="fld">문제 세트</b><span id="qsetStatus" role="status"></span></div>
+<div id="dropZone" class="drop"><button onclick="openImport()">JSON 불러오기</button><span>또는 파일을 여기에 놓으세요</span></div>
+<div class="setlinks"><button onclick="exportQuestions()">내보내기</button><button onclick="resetToDefault()">기본값 복원</button></div><div id="setupMsg" role="status"></div>
+<button id="startBtn" class="primary start" onclick="startGame()">모험 시작 <span>⟶</span></button></div></div></section>
+<section class="screen center" id="s-order"><div class="sheet panel"><div class="eyemark">◆</div><h1>카드 선택 순서</h1><p>이 순서대로 돌아가며 카드를 고릅니다.</p><div id="orderList"></div><button class="primary" onclick="enterTable()">테이블로 ▶</button></div></section>
+<section class="screen" id="s-board">
+  <div class="board-status-rail">
+  <aside class="board-status" aria-label="현재 차례와 팀 점수">
+    <div class="ribbon" id="turnBanner"></div>
+    <div id="scoreboard" class="scoreboard"></div>
+  </aside>
+  </div>
+  <div class="tabletop"><div id="grid"></div></div>
+  <footer><b>남은 카드 <span id="remainCount"></span>장</b><div><button onclick="openScoreEdit()">점수 수정</button><button id="undoBtn" onclick="undo()">↶ 되돌리기</button><button onclick="endGame()">게임 끝</button></div></footer>
+</section>
+<section class="screen" id="s-question"><div class="sheet question-sheet"><div class="question-meta"><b>카드 <span id="qLabel"></span></b><span id="qSubject"></span><span id="qStars"></span><span id="qStageTurn"></span><div id="timer" class="timer"></div></div><div id="qText"></div><div id="qChoices"></div><div id="qAnswer"></div></div><div id="qActions" class="actions"></div></section>
+<section class="screen center" id="s-lucky"><div class="lucky-card"><p id="luckyTurn"></p><svg><use href="#clover"/></svg><h1>LUCKY</h1><p>문제 없이 보물상자를 엽니다!</p><button class="primary" onclick="openMysteryBox()">보물상자 열기</button></div></section>
+<section class="screen center" id="s-box"><div class="sheet panel" id="boxStage"></div></section>
+<section class="screen center" id="s-result"><div class="ceremony"><h1>최종 시상식</h1><div id="rankList"></div><button class="primary" onclick="resetGame()">새 게임</button></div></section>
+</main><div id="modalBg" class="modal-bg"><div id="modalContent" role="dialog" aria-modal="true" aria-label="게임 안내" class="sheet modal"></div></div>
+<!-- ▼ 내장 문제: 이 안의 JSON만 통째로 바꾸면 기본 문제가 바뀝니다 -->
+<script id="default-questions" type="application/json">[
+  {
+    "subject": "수학",
+    "questions": [
+      {
+        "id": "수학-4-1-001",
+        "type": "단답형",
+        "difficulty": "하",
+        "q": "△ABC에서 AB=AC이고 ∠A=50°일 때, ∠B의 크기는?",
+        "choices": [],
+        "a": "65°",
+        "e": "이등변삼각형의 두 밑각의 크기는 같으므로 ∠B=(180°−50°)÷2=65°이다."
+      },
+      {
+        "id": "수학-4-1-006",
+        "type": "객관식",
+        "difficulty": "하",
+        "q": "∠C=∠F=90°인 두 직각삼각형 ABC와 DEF에서 AB=DE, ∠B=∠E=28°이다. 두 삼각형이 합동임을 보여 주는 합동 조건은?",
+        "choices": [
+          "SSS 합동",
+          "SAS 합동",
+          "RHA 합동",
+          "RHS 합동"
+        ],
+        "a": "RHA 합동",
+        "e": "빗변의 길이(AB=DE)와 한 예각의 크기(∠B=∠E)가 각각 같으므로 RHA 합동이다.",
+        "fig": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 50 400 135\" font-family=\"inherit\" font-weight=\"700\" font-size=\"15\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linejoin=\"round\" stroke-linecap=\"round\">\n <path d=\"M20,70 L170,150 L20,150 Z\"/><path d=\"M380,70 L230,150 L380,150 Z\"/>\n <path d=\"M20,140 L30,140 L30,150\" stroke-width=\"1.6\"/><path d=\"M380,140 L370,140 L370,150\" stroke-width=\"1.6\"/>\n <path d=\"M91.7,116.2 L98.3,103.8\" /><path d=\"M301.7,103.8 L308.3,116.2\" />\n <path d=\"M140,150 A30,30 0 0,1 143.5,135.9\" stroke-width=\"1.6\"/><path d=\"M260,150 A30,30 0 0,0 256.5,135.9\" stroke-width=\"1.6\"/>\n <text x=\"120\" y=\"145\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"13\">28°</text><text x=\"281\" y=\"145\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"13\">28°</text>\n <text x=\"12\" y=\"66\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">A</text><text x=\"178\" y=\"168\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">B</text><text x=\"10\" y=\"168\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">C</text><text x=\"390\" y=\"66\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">D</text><text x=\"222\" y=\"168\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">E</text><text x=\"390\" y=\"168\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">F</text></svg>",
+        "memo": "직각삼각형의 합동 조건은 2가지예요.\n· RHA 합동: 빗변의 길이(Hypotenuse)와 한 예각(Angle)이 같을 때\n· RHS 합동: 빗변의 길이와 다른 한 변(Side)의 길이가 같을 때\n(R은 직각 Right angle) 직각이 이미 하나 같으니 조건 2개만 더 있으면 돼요.\n참고로 일반 삼각형의 합동 조건은 중1에서 배운 SSS, SAS, ASA 3가지예요. RHA는 결국 ASA와 같아요(직각과 예각이 같으면 나머지 각도 같으니까).\n함정: '두 변이 같다'만으로는 부족하고 그중 하나가 꼭 빗변이어야 RHS예요."
+      },
+      {
+        "id": "수학-4-2-002",
+        "type": "단답형",
+        "difficulty": "중",
+        "q": "점 O가 △ABC의 외심이고 ∠A=60°일 때, ∠BOC의 크기는?",
+        "choices": [],
+        "a": "120°",
+        "e": "외심이 삼각형 내부에 있을 때 ∠BOC=2∠A=2×60°=120°이다.",
+        "fig": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"-10 -12 340 290\" font-family=\"inherit\" font-weight=\"700\" font-size=\"15\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linejoin=\"round\" stroke-linecap=\"round\">\n <circle cx=\"160\" cy=\"135.8\" r=\"127.4\" stroke-dasharray=\"6 6\" stroke-width=\"1.4\" opacity=\"0.6\"/>\n <path d=\"M130,12 L50,200 L270,200 Z\"/>\n <path d=\"M50,200 L160,135.8 L270,200\" stroke-width=\"1.8\"/>\n <circle cx=\"160\" cy=\"135.8\" r=\"3.5\" fill=\"currentColor\" stroke=\"none\"/>\n <path d=\"M144.9,32.1 A25,25 0 0,1 120.2,35.0\" stroke-width=\"1.6\"/>\n <path d=\"M179.0,146.9 A22,22 0 0,1 141.0,146.9\" stroke=\"#f59e0b\" stroke-width=\"2\"/>\n <text x=\"133\" y=\"57\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"13\">60°</text><text x=\"160\" y=\"176\" fill=\"#f59e0b\" stroke=\"none\" text-anchor=\"middle\" font-size=\"18\">?</text>\n <text x=\"124\" y=\"4\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">A</text><text x=\"38\" y=\"216\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">B</text><text x=\"282\" y=\"216\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">C</text><text x=\"160\" y=\"126\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">O</text></svg>",
+        "memo": "외심 O에서 세 꼭짓점까지의 거리가 같아요(OA=OB=OC). 그래서 △OAB, △OBC, △OCA는 모두 이등변삼각형이에요.\n밑각을 ∠OAB=∠OBA=x, ∠OBC=∠OCB=y, ∠OCA=∠OAC=z라 하면 삼각형 내각의 합에서 2x+2y+2z=180°, 즉 x+y+z=90°.\n∠A=x+z이고, △OBC에서 ∠BOC=180°−2y=2(x+y+z)−2y=2(x+z)=2∠A.\n그래서 ∠BOC=2×60°=120°. (외심이 삼각형 안에 있는 예각삼각형일 때)"
+      },
+      {
+        "id": "수학-4-3-003",
+        "type": "객관식",
+        "difficulty": "중",
+        "q": "점 I가 △ABC의 내심이고 ∠A=80°일 때, ∠BIC의 크기는?",
+        "choices": [
+          "100°",
+          "130°",
+          "140°",
+          "160°"
+        ],
+        "a": "130°",
+        "e": "∠BIC=90°+½∠A=90°+40°=130°이다.",
+        "fig": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"-5 28 330 210\" font-family=\"inherit\" font-weight=\"700\" font-size=\"15\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linejoin=\"round\" stroke-linecap=\"round\">\n <circle cx=\"137.1\" cy=\"146.8\" r=\"63.2\" stroke-dasharray=\"6 6\" stroke-width=\"1.4\" opacity=\"0.6\"/>\n <path d=\"M125,50 L20,210 L300,210 Z\"/>\n <path d=\"M20,210 L137.1,146.8 L300,210\" stroke-width=\"1.8\"/>\n <circle cx=\"137.1\" cy=\"146.8\" r=\"3.5\" fill=\"currentColor\" stroke=\"none\"/>\n <path d=\"M135.3,59.5 A14,14 0 0,1 117.3,61.7\" stroke-width=\"1.6\"/>\n <path d=\"M155.7,154.0 A20,20 0 0,1 119.5,156.3\" stroke=\"#f59e0b\" stroke-width=\"2\"/>\n <text x=\"127\" y=\"78\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"12\">80°</text><text x=\"137\" y=\"183\" fill=\"#f59e0b\" stroke=\"none\" text-anchor=\"middle\" font-size=\"18\">?</text>\n <text x=\"119\" y=\"43\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">A</text><text x=\"10\" y=\"226\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">B</text><text x=\"310\" y=\"226\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">C</text><text x=\"146\" y=\"140\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">I</text></svg>",
+        "memo": "내심 I는 세 내각의 이등분선이 만나는 점이에요. 그래서 ∠IBC=½∠B, ∠ICB=½∠C.\n△IBC에서 ∠BIC=180°−½(∠B+∠C) 이고, ∠B+∠C=180°−∠A 이므로\n∠BIC=180°−½(180°−∠A)=90°+½∠A.\n∠A=80°이면 90°+40°=130°.\n헷갈림 주의: 외심은 2∠A, 내심은 90°+½∠A."
+      },
+      {
+        "id": "수학-4-4-006",
+        "type": "OX",
+        "difficulty": "하",
+        "q": "평행사변형의 두 대각선은 길이가 서로 같다.",
+        "choices": [],
+        "a": "X",
+        "e": "평행사변형의 두 대각선은 서로 다른 것을 이등분할 뿐 길이가 같지는 않다. 길이가 같은 것은 직사각형이다."
+      },
+      {
+        "id": "수학-4-5-004",
+        "type": "단답형",
+        "difficulty": "하",
+        "q": "□ABCD의 두 대각선의 교점을 O라 하자. OA=7cm, OB=4cm, OC=7cm일 때, □ABCD가 평행사변형이 되려면 OD의 길이는?",
+        "choices": [],
+        "a": "4cm",
+        "e": "두 대각선이 서로 다른 것을 이등분하면 평행사변형이므로 OD=OB=4cm이어야 한다.",
+        "fig": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"5 20 320 190\" font-family=\"inherit\" font-weight=\"700\" font-size=\"15\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linejoin=\"round\" stroke-linecap=\"round\">\n <path d=\"M37,67 L134,181 L303,153 L206,39 Z\"/>\n <path d=\"M37,67 L303,153\" stroke-width=\"1.6\"/><path d=\"M134,181 L206,39\" stroke-width=\"1.6\"/>\n <circle cx=\"170\" cy=\"110\" r=\"3.5\" fill=\"currentColor\" stroke=\"none\"/>\n <text x=\"100\" y=\"78\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"13\">7cm</text><text x=\"244\" y=\"125\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"13\">7cm</text><text x=\"172\" y=\"155\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"13\">4cm</text><text x=\"202\" y=\"82\" fill=\"#f59e0b\" stroke=\"none\" text-anchor=\"middle\" font-size=\"18\">?</text>\n <text x=\"24\" y=\"66\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">A</text><text x=\"130\" y=\"200\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">B</text><text x=\"314\" y=\"160\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">C</text><text x=\"208\" y=\"32\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">D</text><text x=\"150\" y=\"124\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">O</text></svg>"
+      },
+      {
+        "id": "수학-4-6-012",
+        "type": "객관식",
+        "difficulty": "중",
+        "q": "다음 중 두 대각선의 길이가 항상 같은 사각형을 모두 고른 것은?\nㄱ. 사다리꼴 ㄴ. 평행사변형 ㄷ. 직사각형 ㄹ. 마름모 ㅁ. 정사각형",
+        "choices": [
+          "ㄷ",
+          "ㄷ, ㅁ",
+          "ㄹ, ㅁ",
+          "ㄴ, ㄷ, ㅁ",
+          "ㄷ, ㄹ, ㅁ"
+        ],
+        "a": "ㄷ, ㅁ",
+        "e": "두 대각선의 길이가 같은 것은 직사각형과 정사각형이다. 평행사변형, 마름모, 일반 사다리꼴은 같지 않을 수 있다.",
+        "memo": "사다리꼴은 '한 쌍의 대변만 평행'하면 되는 사각형이라 대각선 길이가 다를 수 있어요.\n예: 한쪽 옆변이 밑변에 수직인 사다리꼴(그림). 윗변 5, 아랫변 16, 높이 12이면\nBD²=5²+12²=169=13²이라 BD=13, AC²=16²+12²=400=20²이라 AC=20 → 길이가 달라요.\n두 대각선의 길이가 같아지는 건 '등변사다리꼴'(평행하지 않은 두 변의 길이가 같은 사다리꼴)일 때예요. 평행사변형·마름모도 대각선 길이가 같지 않을 수 있어요(예: 대각선이 6, 8인 마름모)."
+      },
+      {
+        "id": "수학-5-1-021",
+        "type": "객관식",
+        "difficulty": "중",
+        "q": "서로 닮은 두 삼각형의 닮음비가 2:3이고, 작은 삼각형의 넓이가 12일 때, 큰 삼각형의 넓이는?",
+        "choices": [
+          "18",
+          "24",
+          "27",
+          "36"
+        ],
+        "a": "27",
+        "e": "넓이의 비는 2²:3²=4:9이다. 12:x=4:9에서 x=27이다.",
+        "memo": "닮음: 모양은 같고 크기만 다른 것(확대·축소한 관계).\n닮음비: 대응하는 변의 길이의 비. 닮음비가 m:n이면\n· 길이(둘레)의 비 = m:n\n· 넓이의 비 = m²:n² (가로, 세로가 모두 m:n배가 되니까)\n· 부피의 비 = m³:n³\n예: 한 변 2인 정사각형 넓이 4, 한 변 3인 정사각형 넓이 9 → 4:9.\n그래서 12:x=4:9, x=27. 자주 틀리는 답: 2:3을 그대로 써서 18."
+      },
+      {
+        "id": "수학-5-5-NEW1",
+        "type": "객관식",
+        "difficulty": "상",
+        "q": "△ABC에서 두 변의 길이가 3cm, 4cm이고, 나머지 한 변의 길이 c cm가 가장 긴 변이다.\n이 삼각형이 둔각삼각형이 되도록 하는 c의 값의 범위는?",
+        "choices": [
+          "4<c<5",
+          "c>5",
+          "5<c<7",
+          "4<c<7"
+        ],
+        "a": "5<c<7",
+        "e": "c=5이면 3²+4²=5²이라 직각삼각형이다. c가 5보다 길어지면 c²>3²+4²이 되어 c와 마주 보는 각이 90°보다 커진다(둔각). 또 삼각형이 되려면 가장 긴 변은 나머지 두 변의 합보다 짧아야 하므로 c<3+4=7. 따라서 5<c<7이다."
+      },
+      {
+        "id": "수학-5-3-001",
+        "type": "단답형",
+        "difficulty": "하",
+        "q": "△ABC에서 두 변 AB, AC의 중점을 각각 D, E라고 하자. BC=12cm일 때, DE의 길이는?",
+        "choices": [],
+        "a": "6cm",
+        "e": "삼각형의 두 변의 중점을 연결한 선분의 길이는 나머지 한 변의 길이의 1/2이므로 6cm이다.",
+        "fig": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"10 0 300 230\" font-family=\"inherit\" font-weight=\"700\" font-size=\"15\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linejoin=\"round\" stroke-linecap=\"round\">\n <path d=\"M150,20 L40,200 L290,200 Z\"/>\n <path d=\"M95,110 L220,110\" stroke=\"#f59e0b\" stroke-width=\"2.4\"/>\n <circle cx=\"95\" cy=\"110\" r=\"3.2\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"220\" cy=\"110\" r=\"3.2\" fill=\"currentColor\" stroke=\"none\"/>\n <path d=\"M117.4,61.9 L127.6,68.1\"/><path d=\"M62.4,151.9 L72.6,158.1\"/>\n <path d=\"M182.1,71.1 L191.5,63.7\"/><path d=\"M178.5,66.3 L187.9,58.9\"/>\n <path d=\"M252.1,161.1 L261.5,153.7\"/><path d=\"M248.5,156.3 L257.9,148.9\"/>\n <text x=\"165\" y=\"222\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"14\">12cm</text><text x=\"157\" y=\"102\" fill=\"#f59e0b\" stroke=\"none\" text-anchor=\"middle\" font-size=\"18\">?</text>\n <text x=\"150\" y=\"13\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">A</text><text x=\"28\" y=\"214\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">B</text><text x=\"300\" y=\"214\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">C</text><text x=\"80\" y=\"114\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">D</text><text x=\"234\" y=\"114\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">E</text></svg>",
+        "memo": "삼각형 두 변의 중점 연결 정리: △ABC에서 D, E가 AB, AC의 중점이면 DE∥BC이고 DE=½BC.\n원리: AD:AB=AE:AC=1:2이고 ∠A가 공통이므로 △ADE와 △ABC는 닮음(닮음비 1:2). 그래서 DE=½BC이고, 동위각(∠ADE=∠ABC)이 같아서 DE∥BC.\n직관: 꼭짓점 A에서 삼각형을 반으로 축소한 모양이 △ADE예요.\n그래서 BC=12cm → DE=6cm."
+      },
+      {
+        "id": "수학-5-4-004",
+        "type": "단답형",
+        "difficulty": "하",
+        "q": "점 G는 △ABC의 무게중심이고 AD는 중선이다. GD=3cm일 때, AG의 길이는?",
+        "choices": [],
+        "a": "6cm",
+        "e": "AG:GD=2:1이므로 AG=2×3=6(cm)이다.",
+        "fig": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"10 5 305 235\" font-family=\"inherit\" font-weight=\"700\" font-size=\"15\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linejoin=\"round\" stroke-linecap=\"round\">\n <path d=\"M140,20 L40,210 L300,210 Z\"/>\n <path d=\"M40,210 L220,115\" stroke-dasharray=\"5 5\" stroke-width=\"1.3\" opacity=\"0.6\"/>\n <path d=\"M300,210 L90,115\" stroke-dasharray=\"5 5\" stroke-width=\"1.3\" opacity=\"0.6\"/>\n <path d=\"M140,20 L160,146.7\" stroke=\"#f59e0b\" stroke-width=\"2.4\"/><path d=\"M160,146.7 L170,210\" stroke-width=\"2.4\"/>\n <circle cx=\"160\" cy=\"146.7\" r=\"3.8\" fill=\"currentColor\" stroke=\"none\"/>\n <path d=\"M105,204 L105,216\"/><path d=\"M235,204 L235,216\"/>\n <text x=\"167\" y=\"88\" fill=\"#f59e0b\" stroke=\"none\" text-anchor=\"start\" font-size=\"18\">?</text><text x=\"176\" y=\"184\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"start\" font-size=\"13\">3cm</text>\n <text x=\"128\" y=\"16\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">A</text><text x=\"28\" y=\"226\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">B</text><text x=\"310\" y=\"226\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">C</text><text x=\"170\" y=\"230\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">D</text><text x=\"146\" y=\"150\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">G</text></svg>",
+        "memo": "무게중심 G: 세 중선(꼭짓점과 마주 보는 변의 중점을 이은 선분)이 만나는 점. 각 중선을 꼭짓점 쪽부터 2:1로 나눠요.\n원리: 중선 AD, BE를 그리면 D, E가 중점이라 DE∥AB, DE=½AB(10번 문제 원리). 그래서 △GAB와 △GDE가 닮음이고 닮음비 2:1 → AG:GD=2:1.\nGD=3cm → AG=6cm (중선 전체 AD=9cm).\n체험: 종이 삼각형을 무게중심에 연필 끝으로 받치면 균형이 맞아요."
+      },
+      {
+        "id": "수학-5-5-018",
+        "type": "단답형",
+        "difficulty": "하",
+        "q": "세 변의 길이가 6cm, x cm, 10cm인 직각삼각형이 있다. 빗변의 길이가 10cm일 때, x의 값은?",
+        "choices": [],
+        "a": "8",
+        "e": "6²+x²=10²에서 x²=64, x=8이다."
+      },
+      {
+        "id": "수학-5-5-020",
+        "type": "단답형",
+        "difficulty": "상",
+        "q": "길이가 13m인 사다리를 벽에 기대어 세웠다. 사다리의 아래 끝이 벽에서 5m 떨어져 있을 때, 사다리의 위 끝은 바닥에서 몇 m 높이에 닿는가? (단, 벽은 바닥에 수직이다.)",
+        "choices": [],
+        "a": "12m",
+        "e": "높이를 x라 하면 x²+5²=13², x²=144, x=12이다.",
+        "fig": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 280 252\" font-family=\"inherit\" font-weight=\"700\" font-size=\"15\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linejoin=\"round\" stroke-linecap=\"round\">\n <path d=\"M60,10 L60,210\"/><path d=\"M30,210 L260,210\"/>\n <path d=\"M60,30 L50,40\" stroke-width=\"1.2\" opacity=\"0.6\"/><path d=\"M60,50 L50,60\" stroke-width=\"1.2\" opacity=\"0.6\"/><path d=\"M60,70 L50,80\" stroke-width=\"1.2\" opacity=\"0.6\"/><path d=\"M60,90 L50,100\" stroke-width=\"1.2\" opacity=\"0.6\"/><path d=\"M60,110 L50,120\" stroke-width=\"1.2\" opacity=\"0.6\"/><path d=\"M60,130 L50,140\" stroke-width=\"1.2\" opacity=\"0.6\"/><path d=\"M60,150 L50,160\" stroke-width=\"1.2\" opacity=\"0.6\"/><path d=\"M60,170 L50,180\" stroke-width=\"1.2\" opacity=\"0.6\"/><path d=\"M60,190 L50,200\" stroke-width=\"1.2\" opacity=\"0.6\"/>\n <path d=\"M70,210 L60,220\" stroke-width=\"1.2\" opacity=\"0.6\"/><path d=\"M90,210 L80,220\" stroke-width=\"1.2\" opacity=\"0.6\"/><path d=\"M110,210 L100,220\" stroke-width=\"1.2\" opacity=\"0.6\"/><path d=\"M130,210 L120,220\" stroke-width=\"1.2\" opacity=\"0.6\"/><path d=\"M150,210 L140,220\" stroke-width=\"1.2\" opacity=\"0.6\"/><path d=\"M170,210 L160,220\" stroke-width=\"1.2\" opacity=\"0.6\"/><path d=\"M190,210 L180,220\" stroke-width=\"1.2\" opacity=\"0.6\"/><path d=\"M210,210 L200,220\" stroke-width=\"1.2\" opacity=\"0.6\"/><path d=\"M230,210 L220,220\" stroke-width=\"1.2\" opacity=\"0.6\"/><path d=\"M250,210 L240,220\" stroke-width=\"1.2\" opacity=\"0.6\"/>\n <path d=\"M60,200 L70,200 L70,210\" stroke-width=\"1.6\"/>\n <path d=\"M60,30 L135,210\" stroke=\"#f59e0b\" stroke-width=\"5\"/>\n <circle cx=\"60\" cy=\"30\" r=\"3.5\" fill=\"currentColor\" stroke=\"none\"/>\n <text x=\"118\" y=\"112\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"start\" font-size=\"15\">13m</text><text x=\"97\" y=\"236\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"15\">5m</text><text x=\"44\" y=\"125\" fill=\"#f59e0b\" stroke=\"none\" text-anchor=\"end\" font-size=\"20\">?</text>\n <text x=\"30\" y=\"24\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"13\">벽</text><text x=\"240\" y=\"236\" fill=\"currentColor\" stroke=\"none\" text-anchor=\"middle\" font-size=\"13\">바닥</text></svg>"
+      },
+      {
+        "id": "수학-6-1-008",
+        "type": "OX",
+        "difficulty": "하",
+        "q": "옷장에 티셔츠 7벌과 바지 4벌이 있다.\n티셔츠와 바지를 각각 하나씩 골라 입는 경우의 수는 11이다.",
+        "choices": [],
+        "a": "X",
+        "e": "티셔츠와 바지를 동시에 골라 입으므로 곱의 법칙으로 7×4=28이다."
+      },
+      {
+        "id": "수학-6-1-009",
+        "type": "객관식",
+        "difficulty": "중",
+        "q": "6명의 후보 중에서 학급 회장 1명과 부회장 1명을 뽑는 경우의 수는?",
+        "choices": [
+          "12",
+          "15",
+          "30",
+          "36"
+        ],
+        "a": "30",
+        "e": "회장을 뽑는 경우 6가지, 그 각각에 대해 남은 5명 중 부회장을 뽑으므로 6×5=30이다."
+      },
+      {
+        "id": "수학-6-2-003",
+        "type": "단답형",
+        "difficulty": "중",
+        "q": "두 개의 주사위 A, B를 동시에 던질 때, 나오는 두 눈의 수의 합이 6일 확률은?",
+        "choices": [],
+        "a": "5/36",
+        "e": "모든 경우는 6×6=36가지, 합이 6인 경우는 (1,5),(2,4),(3,3),(4,2),(5,1)의 5가지이므로 5/36이다."
+      },
+      {
+        "id": "수학-6-3-021",
+        "type": "객관식",
+        "difficulty": "중",
+        "q": "서로 다른 동전 3개를 동시에 던질 때, 적어도 한 개는 뒷면이 나올 확률은?",
+        "choices": [
+          "3/4",
+          "13/16",
+          "7/8",
+          "15/16",
+          "1"
+        ],
+        "a": "7/8",
+        "e": "모든 경우는 8가지이고 반대 상황인 '모두 앞면'은 1가지(1/8)이므로 1-1/8=7/8이다."
+      },
+      {
+        "id": "수학-6-4-005",
+        "type": "객관식",
+        "difficulty": "상",
+        "q": "A 상자에는 빨간 공 3개, 파란 공 4개가, B 상자에는 빨간 공 2개, 파란 공 3개가 들어 있다. 두 상자에서 각각 공을 한 개씩 꺼낼 때, 두 개 모두 파란 공일 확률은?",
+        "choices": [
+          "8/35",
+          "12/35",
+          "4/7",
+          "3/5"
+        ],
+        "a": "12/35",
+        "e": "A에서 파란 공 4/7, B에서 파란 공 3/5이므로 4/7×3/5=12/35이다."
+      }
+    ]
+  },
+  {
+    "subject": "영어",
+    "questions": [
+      {
+        "id": "영어-L5-001",
+        "type": "객관식",
+        "difficulty": "하",
+        "q": "다음 영영풀이에 해당하는 단어는?\n\"a person who writes news stories for newspapers, magazines, or television\"",
+        "choices": [
+          "journalist",
+          "agent",
+          "statistician",
+          "chef"
+        ],
+        "a": "journalist",
+        "e": "신문·잡지·TV에 뉴스 기사를 쓰는 사람은 journalist(기자)이다. 본문의 Ms. Ali가 sports journalist이다."
+      },
+      {
+        "id": "영어-L5-018",
+        "type": "객관식",
+        "difficulty": "중",
+        "q": "우리말과 같도록 빈칸에 알맞은 말은?\n나는 그가 왜 늦었는지 모른다.\n= I don't know ______.",
+        "choices": [
+          "why was he late",
+          "why he was late",
+          "why late he was",
+          "he was why late"
+        ],
+        "a": "why he was late",
+        "e": "간접의문문은 「의문사 + 주어 + 동사」 순서로 쓴다. → why he was late"
+      },
+      {
+        "id": "영어-L5-032",
+        "type": "OX",
+        "difficulty": "하",
+        "q": "「Voices from the Sports Field」 해석이 맞으면 O, 틀리면 X\nA sports statistician is someone who collects data and studies numbers about sports games.\n→ 스포츠 통계 전문가는 데이터를 수집하고 스포츠 경기에 관한 숫자를 연구하는 사람이다.",
+        "choices": [],
+        "a": "O",
+        "e": "who는 someone을 꾸미는 주격 관계대명사로, '~하는 사람'으로 해석한다. 해석이 맞다."
+      },
+      {
+        "id": "영어-L6-009",
+        "type": "객관식",
+        "difficulty": "하",
+        "q": "밑줄 친 A의 말의 의도로 알맞은 것은?\nA: Don't forget to turn off the lights when you leave.\nB: Oh, I got it.",
+        "choices": [
+          "상기시키기",
+          "열거하기",
+          "놀람 표현하기",
+          "감사 표현하기"
+        ],
+        "a": "상기시키기",
+        "e": "Don't forget to ~.(~하는 것을 잊지 마.)는 상대방에게 해야 할 일을 상기시키는 표현이다."
+      },
+      {
+        "id": "영어-L6-018",
+        "type": "단답형",
+        "difficulty": "중",
+        "q": "괄호 안의 동사를 알맞은 형태로 바꿔 말하시오.\nThe teacher told us ______ quiet. (be)",
+        "choices": [],
+        "a": "to be",
+        "e": "tell + 목적어 + to부정사: '~에게 …하라고 말하다'. → told us to be quiet"
+      },
+      {
+        "id": "영어-L6-027",
+        "type": "OX",
+        "difficulty": "중",
+        "q": "「Happy Digital Laundry」 해석이 맞으면 O, 틀리면 X\nRemember that sharing something online is easy, but removing it is hard.\n→ 온라인에 무언가를 공유하는 것은 쉽지만, 그것을 없애는 것은 어렵다는 것을 기억하세요.",
+        "choices": [],
+        "a": "O",
+        "e": "sharing ~, removing ~은 동명사 주어로 '~하는 것'으로 해석한다. 해석이 맞다."
+      },
+      {
+        "id": "영어-L7-002",
+        "type": "단답형",
+        "difficulty": "하",
+        "q": "다음 영영풀이에 해당하는 단어를 말하시오. (i로 시작)\n\"not allowed by law\"",
+        "choices": [],
+        "a": "illegal",
+        "e": "법으로 허용되지 않는 = illegal(불법의). legal(합법의) 앞에 il-이 붙은 반의어이다."
+      },
+      {
+        "id": "영어-L7-010",
+        "type": "객관식",
+        "difficulty": "중",
+        "q": "\"A middle school student wrote this song!\"라는 말에 대한 반응으로 어색한 것은?",
+        "choices": [
+          "No way!",
+          "What a surprise!",
+          "That's surprising!",
+          "Good luck with that!"
+        ],
+        "a": "Good luck with that!",
+        "e": "놀라운 사실에는 놀람을 표현해야 한다. Good luck with that!(행운을 빌어!)은 놀람 표현이 아니다."
+      },
+      {
+        "id": "영어-L7-022",
+        "type": "단답형",
+        "difficulty": "중",
+        "q": "빈칸에 알맞은 한 단어는?\n엄마는 내가 방을 청소하게 하셨다.\n= Mom had me ______ my room.",
+        "choices": [],
+        "a": "clean",
+        "e": "사역동사 have + 목적어 + 동사원형: '~가 …하게 하다'. to clean이나 cleaning은 틀린다."
+      },
+      {
+        "id": "영어-L8-004",
+        "type": "OX",
+        "difficulty": "하",
+        "q": "표현 use up의 영영풀이는 \"to finish all of something so that there is none left\"이다.",
+        "choices": [],
+        "a": "O",
+        "e": "use up = 남김없이 다 써 버리다. Angus는 기계 안의 털실을 모두 써 버렸다(used up all the wool)."
+      },
+      {
+        "id": "영어-L8-011",
+        "type": "객관식",
+        "difficulty": "중",
+        "q": "다음 중 도움을 '제안하는' 표현이 아닌 것은?",
+        "choices": [
+          "Can I give you a hand?",
+          "Do you need any help?",
+          "Let me help you.",
+          "Can you do me a favor?"
+        ],
+        "a": "Can you do me a favor?",
+        "e": "Can you do me a favor?(부탁 좀 들어줄래?)는 도움을 '요청'하는 표현이다."
+      },
+      {
+        "id": "영어-L8-031",
+        "type": "단답형",
+        "difficulty": "상",
+        "q": "「Sparrow Socks」 우리말과 같도록 빈칸에 알맞은 세 단어는?\n사람들은 그 양말을 보자마자 백화점으로 서둘러 갔다.\n= ______ ______ ______ people saw the socks, they hurried to the department store.",
+        "choices": [],
+        "a": "As soon as",
+        "e": "as soon as + 주어 + 동사 = ~하자마자."
+      }
+    ]
+  },
+  {
+    "subject": "역사",
+    "questions": [
+      {
+        "id": "역사-02-003",
+        "type": "객관식",
+        "difficulty": "하",
+        "q": "최초로 세계 일주에 성공하여 지구가 둥글다는 사실을 입증한 함대를 이끈 사람은?",
+        "choices": [
+          "마젤란",
+          "콜럼버스",
+          "마르코 폴로",
+          "코페르니쿠스",
+          "바스쿠 다 가마"
+        ],
+        "a": "마젤란",
+        "e": "마젤란은 항해 도중 필리핀에서 숨졌지만, 남은 선원들이 에스파냐로 돌아와 세계 일주를 완성하였다."
+      },
+      {
+        "id": "역사-03-006",
+        "type": "OX",
+        "difficulty": "하",
+        "q": "루터는 인간은 오직 신앙(믿음)을 통해서만 구원받을 수 있다고 주장하였다.",
+        "choices": [],
+        "a": "O",
+        "e": "루터는 면벌부 같은 것이 아니라 오직 믿음과 신의 은총으로 구원받는다고 주장하였다."
+      },
+      {
+        "id": "역사-04-015",
+        "type": "객관식",
+        "difficulty": "중",
+        "q": "이 문서가 승인되면서 국왕의 권력은 의회가 만든 법의 제한을 받게 되었고, 국왕이 의회의 동의를 얻어 통치하는 입헌주의 전통이 마련되었다. 이 문서는?",
+        "choices": [
+          "권리 장전",
+          "권리 청원",
+          "95개조 반박문",
+          "유스티니아누스 법전"
+        ],
+        "a": "권리 장전",
+        "e": "1689년 메리와 윌리엄은 의회가 제출한 권리 장전을 승인하였다. '의회의 승인 없이 세금을 걷거나 군대를 둘 수 없다' 등의 내용이 담겼다."
+      },
+      {
+        "id": "역사-05-008",
+        "type": "객관식",
+        "difficulty": "하",
+        "q": "영국의 과세 정책에 반발한 북아메리카 식민지인들이 내세운 주장으로 가장 적절한 것은?",
+        "choices": [
+          "짐이 곧 국가다.",
+          "대표 없는 곳에 과세 없다.",
+          "청교도에게 종교의 자유를 달라.",
+          "21세 이상 남자에게 선거권을 달라.",
+          "국왕은 군림하지만 통치하지 않는다."
+        ],
+        "a": "대표 없는 곳에 과세 없다.",
+        "e": "식민지 대표가 영국 의회에 없으므로 영국 의회가 식민지에 세금을 매길 수 없다는 주장이다."
+      },
+      {
+        "id": "역사-06-018",
+        "type": "단답형",
+        "difficulty": "중",
+        "q": "국민 공회 시기 급진파를 이끌며 공포 정치를 실시하다가 결국 처형당한 인물은?",
+        "choices": [],
+        "a": "로베스피에르",
+        "e": "로베스피에르는 공안 위원회와 혁명 재판소를 통해 반대파를 처형했으나, 온건파에게 처형되었다."
+      },
+      {
+        "id": "역사-07-022",
+        "type": "단답형",
+        "difficulty": "중",
+        "q": "「독일의 문제는 연설이나 다수결이 아니라 오직 철과 피에 의해서만 해결할 수 있다.」 이 연설과 관련된, 군사력 강화를 내세운 프로이센의 정책은?",
+        "choices": [],
+        "a": "철혈 정책",
+        "e": "프로이센의 재상 비스마르크는 철혈 정책으로 군사력을 키워 독일 통일을 이끌었다."
+      },
+      {
+        "id": "역사-09-020",
+        "type": "단답형",
+        "difficulty": "중",
+        "q": "산업 혁명 시기 일자리를 잃은 노동자들이 자신들의 불행이 기계 탓이라고 생각하여 기계를 부순 운동은?",
+        "choices": [],
+        "a": "러다이트 운동",
+        "e": "러다이트 운동(1811~1817)은 영국에서 일어난 기계 파괴 운동으로, 노동 운동의 시초로 평가된다."
+      }
+    ]
+  },
+  {
+    "subject": "국어",
+    "questions": [
+      {
+        "id": "국어-01-009",
+        "type": "단답형",
+        "difficulty": "하",
+        "q": "입안의 통로를 막고 코로 공기를 내보내면서 내는 소리로, ‘ㅁ, ㄴ, ㅇ’이 속하는 자음을 무엇이라고 할까?",
+        "choices": [],
+        "a": "비음",
+        "e": "코(鼻)로 소리를 내서 비음(콧소리)이라고 해요. 코를 막고 ‘마’를 발음하면 소리가 달라져요."
+      },
+      {
+        "id": "국어-01-025",
+        "type": "객관식",
+        "difficulty": "중",
+        "q": "입술을 둥글게 오므려 발음하는 원순 모음으로만 묶인 것은?",
+        "choices": [
+          "ㅏ, ㅓ, ㅗ, ㅜ",
+          "ㅣ, ㅔ, ㅐ, ㅟ",
+          "ㅗ, ㅚ, ㅜ, ㅟ",
+          "ㅡ, ㅓ, ㅏ, ㅗ"
+        ],
+        "a": "ㅗ, ㅚ, ㅜ, ㅟ",
+        "e": "단모음 10개 중 원순 모음은 ‘ㅗ, ㅚ, ㅜ, ㅟ’ 4개뿐이고, 나머지 6개는 평순 모음이에요."
+      },
+      {
+        "id": "국어-02-001",
+        "type": "단답형",
+        "difficulty": "중",
+        "q": "한글 자음을 만든 원리 중, 소리가 세지는 것에 따라 기본자에 획을 더해 새 글자를 만드는 원리를 무엇이라고 할까? (두 글자)",
+        "choices": [],
+        "a": "가획",
+        "e": "‘가획(加劃)’은 획을 더한다는 뜻이에요. 예: ㄱ → ㅋ, ㄴ → ㄷ → ㅌ"
+      },
+      {
+        "id": "국어-03-024",
+        "type": "객관식",
+        "difficulty": "중",
+        "q": "다음 중 피동 표현이 겹쳐 쓰인 이중 피동 표현은?",
+        "choices": [
+          "읽히다",
+          "읽혀지다",
+          "열리다",
+          "나누어지다"
+        ],
+        "a": "읽혀지다",
+        "e": "‘읽혀지다’는 ‘읽-’ + 피동 접미사 ‘-히-’ + ‘-어지다’로 피동이 두 번 쓰였어요. ‘읽히다’로 써야 해요."
+      },
+      {
+        "id": "국어-04-003",
+        "type": "OX",
+        "difficulty": "하",
+        "q": "‘선생님께서 “조용히 하세요.”라고 말씀하셨다.’는 간접 인용 표현이다.",
+        "choices": [],
+        "a": "X",
+        "e": "큰따옴표로 원래 말을 그대로 옮기고 ‘라고’를 썼으니 직접 인용이에요."
+      }
+    ]
+  },
+  {
+    "subject": "과학",
+    "questions": [
+      {
+        "id": "과학-01-015",
+        "type": "객관식",
+        "difficulty": "하",
+        "q": "포도당이 들어 있는 용액에 베네딕트 용액을 넣고 가열했을 때 나타나는 색깔은?",
+        "choices": [
+          "청람색",
+          "황적색",
+          "보라색",
+          "선홍색"
+        ],
+        "a": "황적색",
+        "e": "포도당은 베네딕트 용액과 함께 가열하면 황적색을 나타낸다."
+      },
+      {
+        "id": "과학-02-008",
+        "type": "단답형",
+        "difficulty": "하",
+        "q": "간에서 만들어져 쓸개에 저장되었다가 샘창자로 분비되며, 지방의 소화를 돕는 소화액은?",
+        "choices": [],
+        "a": "쓸개즙",
+        "e": "쓸개즙은 간에서 만들어지고 쓸개에 저장되었다가 샘창자로 분비된다."
+      },
+      {
+        "id": "과학-04-002",
+        "type": "객관식",
+        "difficulty": "중",
+        "q": "온몸순환의 경로를 순서대로 옳게 나열한 것은?",
+        "choices": [
+          "우심실 → 대동맥 → 온몸의 모세혈관 → 대정맥 → 좌심방",
+          "좌심실 → 대동맥 → 온몸의 모세혈관 → 대정맥 → 우심방",
+          "좌심실 → 폐동맥 → 폐의 모세혈관 → 폐정맥 → 우심방",
+          "우심방 → 대동맥 → 온몸의 모세혈관 → 대정맥 → 좌심실"
+        ],
+        "a": "좌심실 → 대동맥 → 온몸의 모세혈관 → 대정맥 → 우심방",
+        "e": "온몸순환은 좌심실에서 나간 혈액이 온몸을 돌고 대정맥을 거쳐 우심방으로 돌아오는 경로이다."
+      },
+      {
+        "id": "과학-05-010",
+        "type": "OX",
+        "difficulty": "중",
+        "q": "숨을 들이쉴 때는 가로막이 올라가고 갈비뼈가 내려간다.",
+        "choices": [],
+        "a": "X",
+        "e": "들숨 때는 갈비뼈가 올라가고 가로막이 내려가 흉강의 부피가 커진다."
+      },
+      {
+        "id": "과학-06-005",
+        "type": "객관식",
+        "difficulty": "중",
+        "q": "탄수화물, 지방이 분해될 때는 만들어지지 않고 단백질이 분해될 때만 만들어지는 노폐물은?",
+        "choices": [
+          "물",
+          "이산화 탄소",
+          "암모니아",
+          "산소"
+        ],
+        "a": "암모니아",
+        "e": "질소를 포함한 암모니아는 단백질이 분해될 때만 생긴다. 물과 이산화 탄소는 세 영양소 모두에서 생긴다."
+      }
+    ]
+  },
+  {
+    "subject": "보너스",
+    "questions": [
+      {
+        "type": "LUCKY",
+        "difficulty": "LUCKY",
+        "q": "🍀 LUCKY",
+        "choices": [],
+        "a": "",
+        "e": ""
+      },
+      {
+        "type": "LUCKY",
+        "difficulty": "LUCKY",
+        "q": "🍀 LUCKY",
+        "choices": [],
+        "a": "",
+        "e": ""
+      },
+      {
+        "type": "LUCKY",
+        "difficulty": "LUCKY",
+        "q": "🍀 LUCKY",
+        "choices": [],
+        "a": "",
+        "e": ""
+      }
+    ]
+  }
+]</script>
+<script>const ALPHA="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+const KOR=["ㄱ","ㄴ","ㄷ","ㄹ","ㅁ","ㅂ","ㅅ","ㅇ","ㅈ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
+const NUM=[1,2,3,4,5,6,7,8,9,10].map(String);
+const CARD_LABELS=[...ALPHA,...KOR,...NUM]; // 50개
+const REWARDS=[
+ // 일반 코인 64%: 플러스 각 10%, 마이너스 각 6%
+ {w:100, kind:"coin", val:100},   {w:100, kind:"coin", val:200},
+ {w:100, kind:"coin", val:300},   {w:100, kind:"coin", val:500},
+ {w:60, kind:"coin", val:-100},  {w:60, kind:"coin", val:-200},
+ {w:60, kind:"coin", val:-300},  {w:60, kind:"coin", val:-500},
+ // Change·x2·Steal200·Steal300 총 20% : 각 5%
+ {w:50, kind:"change"},          {w:50, kind:"x2"},
+ {w:50, kind:"steal", val:200},  {w:50, kind:"steal", val:300},
+ {w:50, kind:"loseall"},  // 5%
+ {w:50, kind:"shield"},   // 5%
+ {w:20, kind:"reverse"},  // 2%
+ {w:40, kind:"coin", val:1000, jackpot:true}, // 잭팟 4%
+];
+function drawReward(){
+  const total=REWARDS.reduce((s,r)=>s+r.w,0);
+  let r=Math.random()*total;
+  for(const item of REWARDS){ if((r-=item.w)<0) return item; }
+  return REWARDS[0];
+}
+function shuffle(a){
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+function normalizeImport(data){
+  let qs=[];
+  const pushSubjObj=o=>{ if(o&&Array.isArray(o.questions)) o.questions.forEach(q=>qs.push(Object.assign({},q,{subject:q.subject||o.subject||""}))); };
+  if(Array.isArray(data)){
+    if(data.length && data[0] && Array.isArray(data[0].questions)) data.forEach(pushSubjObj);
+    else data.forEach(q=>qs.push(q));
+  }else if(data && Array.isArray(data.questions)){
+    pushSubjObj(data);
+  }
+  return qs.filter(q=>q && typeof q==="object").map(q=>({
+    id:String(q.id||""), difficulty:String(q.difficulty||""),
+    q:String(q.q||""), a:(q.a==null?"":String(q.a)), e:String(q.e||""),
+    subject:String(q.subject||""), type:String(q.type||""),
+    choices:Array.isArray(q.choices)?q.choices.map(String):[],
+    fig:typeof q.fig==="string"?q.fig:""
+  })).filter(q=>q.q || q.type==="LUCKY");
+}
+function escapeHtml(s){
+  return String(s==null?"":s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+/* KaTeX로 요소 안의 $...$ 수식을 렌더 (라이브러리 로드 전/실패 시 원문 유지) */
+function renderMath(el){
+  if(!el || !window.renderMathInElement) return;
+  try{
+    renderMathInElement(el, {
+      delimiters:[{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],
+      throwOnError:false, errorColor:'#ffb3b3'
+    });
+  }catch(e){}
+}
+/* 문제 텍스트를 안전한 HTML로: 연속된 파이프(|) 줄 2개 이상은 표로 렌더링 */
+function formatQuestion(text){
+  const lines=String(text==null?"":text).split("\n");
+  const splitRow=l=>{
+    let cells=l.split("|");
+    if(cells.length && cells[0].trim()==="") cells=cells.slice(1);
+    if(cells.length && cells[cells.length-1].trim()==="") cells=cells.slice(0,-1);
+    return cells.map(c=>c.trim());
+  };
+  const isSep=cells=>cells.length>0 && cells.every(c=>/^:?-{2,}:?$/.test(c));
+  const out=[]; let buf=[];
+  const flush=()=>{
+    if(buf.length>=2){
+      const rows=buf.map(splitRow).filter(cells=>!isSep(cells));
+      const tr=rows.map(cells=>"<tr>"+cells.map(c=>`<td>${escapeHtml(c)}</td>`).join("")+"</tr>").join("");
+      out.push(`<table class="qtable">${tr}</table>`);
+    }else if(buf.length===1){
+      out.push(`<div>${escapeHtml(buf[0])}</div>`);
+    }
+    buf=[];
+  };
+  for(const l of lines){
+    if(l.includes("|") && l.trim()!=="") buf.push(l);
+    else{ flush(); out.push(l.trim()===""?'<div class="qspace"></div>':`<div>${escapeHtml(l)}</div>`); }
+  }
+  flush();
+  return out.join("");
+}
+function freshState(teamNames,timeLimit){
+  return {
+    teams: teamNames.map(n=>({name:n, score:0, shields:0})),
+    timeLimit,
+    turnOrder: [],
+    turnPos: 0,
+    solved: [],          // 푼 카드 라벨
+    currentCard: null,
+    phase: "setup",
+    history: [],         // 되돌리기 스냅샷
+  };
+}
+function save(){ if(state) localStorage.setItem(SAVE_KEY, JSON.stringify(state)); }
+function snapshot(){
+  // 점수/방어권/푼카드/차례 상태만 저장 (history 제외)
+  const {teams,solved,turnPos,currentCard}=state;
+  state.history.push(JSON.stringify({teams,solved,turnPos,currentCard}));
+  if(state.history.length>40) state.history.shift();
+}
+function changeTeamCount(d){
+  setupTeamCount=Math.max(2,Math.min(6,setupTeamCount+d));
+  document.getElementById("teamCountLbl").textContent=setupTeamCount;
+  while(setupNames.length<setupTeamCount) setupNames.push("");
+  renderTeamNameInputs();
+}
+function changeTime(d){
+  const el=document.getElementById("timeLimit");
+  el.value=Math.max(5, (parseInt(el.value)||30)+d);
+}
+
+function startGame(){
+  if(!activeQuestions().length)return;
+  previousScores=[];
+  const tl=Math.max(5, parseInt(document.getElementById("timeLimit").value)||30);
+  const names=[];
+  for(let i=0;i<setupTeamCount;i++){
+    const v=(document.getElementById("tname"+i).value||"").trim();
+    names.push(v || ("팀 "+(i+1)));
+  }
+  state=freshState(names,tl);
+  state.questions=buildGameQuestions();   // 이번 게임의 카드↔문제 배치 확정
+  // 랜덤 차례 순서
+  state.turnOrder=[...Array(names.length).keys()];
+  for(let i=state.turnOrder.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [state.turnOrder[i],state.turnOrder[j]]=[state.turnOrder[j],state.turnOrder[i]];
+  }
+  renderOrder();
+  go("order");
+}
+function showTargetPick(openerIdx,reward){
+  const stage=document.getElementById("boxStage");
+  const colors=TEAM_COLORS;
+  const isSteal=reward.kind==="steal";
+  const verb=isSteal?`${reward.val}점을 강탈할`:"점수를 맞바꿀";
+  let validCount=0;
+  const targets=state.turnOrder.map(i=>{
+    if(i===openerIdx) return "";
+    const t=state.teams[i];
+    const canPick = !isSteal || t.score>0;   // 강탈은 0점 이하 팀 지목 불가
+    if(canPick) validCount++;
+    const sub = (isSteal && t.score<=0)
+      ? `<span class="ps">강탈 불가 (0점 이하)</span>`
+      : `<span class="ps">${t.score}점${t.shields?' · 🛡'+t.shields:''}</span>`;
+    const attr = canPick
+      ? `onclick="revealReward(${openerIdx},state.pendingReward,${i})"`
+      : `disabled`;
+    return `<button ${attr} style="border-color:${colors[i]};${canPick?'':'opacity:.4;cursor:not-allowed'}">
+        ${crest(i)}${teamName(i)}${sub}</button>`;
+  }).join("");
+  stage.innerHTML=`
+    ${chest(true)}<div class="reveal-big chance">${isSteal?"💰 STEAL "+reward.val:"🔄 POINT CHANGE"}</div>
+    <h2>${teamName(openerIdx)}(이)가 ${verb} 상대 팀을 지목하세요</h2>
+    <div class="teampick">${targets}</div>
+    ${validCount===0?`<p class="sub">${isSteal?'강탈할 수 있는 팀이 없어':'대상 팀이 없어'} 효과가 무효 처리됩니다.</p><button class="btn lg" onclick="finishQuestion()">테이블로 돌아가기</button>`:''}`;
+}
+
+/* 보상 실제 적용 + 연출 */
+function revealReward(openerIdx,reward,targetIdx){
+  const opener=state.teams[openerIdx];
+  let title="",cls="",desc="",applyFn=null,defender=null,defenderKind="";
+
+  const fmt=v=>(v>0?"+"+v:""+v);
+  switch(reward.kind){
+    case "coin":
+      if(reward.jackpot){ title="JACKPOT +1000"; cls="special"; }
+      else { title=fmt(reward.val)+" PTS"; cls=reward.val>0?"plus":"minus"; }
+      desc=`${opener.name}의 점수가 ${fmt(reward.val)} 됩니다.`;
+      applyFn=()=>opener.score+=reward.val;
+      if(reward.val<0){ defender=openerIdx; defenderKind="마이너스 코인"; }
+      break;
+    case "x2":
+      title="×2 POINTS"; cls="chance";
+      desc=`${opener.name}의 점수(${opener.score})가 2배가 됩니다.`;
+      applyFn=()=>opener.score*=2;
+      if(opener.score<0){ defender=openerIdx; defenderKind="x2 손실"; }
+      break;
+    case "loseall":
+      title="LOSE ALL PTS"; cls="minus";
+      desc=`${opener.name}의 점수가 0이 됩니다.`;
+      applyFn=()=>opener.score=0;
+      if(opener.score>0){ defender=openerIdx; defenderKind="LOSE ALL"; }
+      break;
+    case "steal":{
+      const victim=state.teams[targetIdx];
+      const stolen=Math.max(0, Math.min(reward.val, victim.score)); // 있는 만큼만, 0점 이하면 0
+      title=`STEAL ${reward.val}`; cls="chance";
+      if(stolen<=0){
+        desc=`${victim.name}의 점수가 0점 이하라 강탈할 수 없습니다. (무효)`;
+        applyFn=()=>{};
+      }else{
+        desc = stolen<reward.val
+          ? `${victim.name}의 남은 ${stolen}점을 ${opener.name}(이)가 모두 가져옵니다.`
+          : `${opener.name}(이)가 ${victim.name}에게서 ${reward.val}점을 가져옵니다.`;
+        applyFn=()=>{ victim.score-=stolen; opener.score+=stolen; };
+        defender=targetIdx; defenderKind="강탈";
+      }
+      break;}
+    case "change":{
+      const victim=state.teams[targetIdx];
+      title="POINT CHANGE"; cls="chance";
+      desc=`${opener.name}(${opener.score}) ↔ ${victim.name}(${victim.score}) 점수를 맞바꿉니다.`;
+      applyFn=()=>{ const tmp=opener.score; opener.score=victim.score; victim.score=tmp; };
+      if(victim.score!==opener.score){ defender=victim.score>opener.score?targetIdx:openerIdx; defenderKind="점수 교환"; }
+      break;}
+    case "shield":
+      title="방어권 획득"; cls="special";
+      desc=`${opener.name}(이)가 방어권을 얻습니다. (점수가 깎이는 효과 1회 무효화)`;
+      applyFn=()=>opener.shields+=1;
+      break;
+    case "reverse":
+      title="순위 뒤집기"; cls="special";
+      desc=`현재 1등과 꼴등의 점수를 맞바꿉니다!`;
+      applyFn=()=>applyReverse();
+      const scores=state.teams.map(t=>t.score);
+      if(Math.max(...scores)>Math.min(...scores)){
+        defender=scores.indexOf(Math.max(...scores)); defenderKind="순위 뒤집기";
+      }
+      break;
+  }
+
+  // 방어권 보유 팀이 손해를 입는 경우 → 점수 공개 전에 방어권 사용 여부부터 결정
+  if(defender!==null && state.teams[defender].shields>0){
+    pendingApply={openerIdx,reward,targetIdx,applyFn,title,cls,desc,defender,defenderKind};
+    // 박스를 연 팀 본인에게 마이너스가 난 경우(=defender가 opener)는 점수를 가린 채 블라인드로 물어봄
+    const blind = (defender===openerIdx);
+    showShieldPrompt(defender,defenderKind,blind);
+    return;
+  }
+  doApply(applyFn,openerIdx,reward,targetIdx,title,cls,desc);
+}
+function applyReverse(){
+  const ts=state.teams;
+  let maxI=0,minI=0;
+  ts.forEach((t,i)=>{ if(t.score>ts[maxI].score)maxI=i; if(t.score<ts[minI].score)minI=i; });
+  if(maxI!==minI){ const tmp=ts[maxI].score; ts[maxI].score=ts[minI].score; ts[minI].score=tmp; }
+}
+function finishQuestion(){
+  clearInterval(timerId);
+  if(state.currentCard && !state.solved.includes(state.currentCard)){
+    state.solved.push(state.currentCard);
+  }
+  state.turnPos=(state.turnPos+1)%state.turnOrder.length;
+  state.currentCard=null;
+  state.pendingReward=null;
+  delete state.rewardResolved;delete state.pendingOpener;
+  go("board");
+}
+
+/* ============== 되돌리기 ============== */
+function undo(){
+  if(state.history.length===0) return;
+  const snap=JSON.parse(state.history.pop());
+  state.teams=snap.teams;
+  state.solved=snap.solved;
+  state.turnPos=snap.turnPos;
+  state.currentCard=null;
+  clearInterval(timerId);
+  go("board");
+}
+
+/* ============== 점수 수동 수정 ============== */
+function openScoreEdit(){
+  const rows=state.teams.map((t,i)=>`
+    <div class="editteam">
+      <span class="en">${escapeHtml(t.name)}</span>
+      <span class="sub">점수</span>
+      <input type="number" id="edit-score-${i}" value="${t.score}">
+      <span class="sub">🛡</span>
+      <input type="number" id="edit-shield-${i}" value="${t.shields}" min="0" style="width:70px">
+    </div>`).join("");
+  modal(`
+    <h2>✏️ 점수 / 방어권 수정</h2>
+    ${rows}
+    <div class="row" style="justify-content:flex-end; margin-top:18px;">
+      <button class="btn ghost" onclick="closeModal()">취소</button>
+      <button class="btn green" onclick="applyScoreEdit()">적용</button>
+    </div>`);
+}
+function applyScoreEdit(){
+  snapshot();
+  state.teams.forEach((t,i)=>{
+    t.score=parseInt(document.getElementById("edit-score-"+i).value)||0;
+    t.shields=Math.max(0,parseInt(document.getElementById("edit-shield-"+i).value)||0);
+  });
+  closeModal();
+  renderBoard(); save();
+}
+function openHelp(){
+  modal(`
+   <h2>❓ 게임 도움말</h2>
+   <div class="help-list">
+   <p><b>진행</b><br>팀이 차례대로 카드를 골라 문제를 풉니다. 제한 시간 안에 못 맞추면 다른 팀에게 기회가 넘어갑니다. 맞힌 팀은 닫힌 상자를 갖거나 다른 팀에 넘깁니다. 다른 팀이 맞혔다면 ‘맞힌 팀 변경’을 누르세요. LUCKY는 카드를 뽑은 팀이 결정합니다. 상자를 받은 팀이 열면 효과가 공개됩니다.</p>
+   <p><b><span class="mini-icon plus">◉</span>코인</b><br>+100/+200/+300/+500, −100/−200/−300/−500</p>
+   <p><b><span class="mini-icon chance">✧</span>점수 찬스</b><br>
+   · POINT CHANGE: 지목한 팀과 점수 교환<br>
+   · ×2: 점수 2배<br>
+   · STEAL 200·300: 지목한 팀 점수 강탈</p>
+   <p><b><span class="mini-icon danger">☠</span>강력 효과</b><br>
+   · LOSE ALL: 점수 0</p>
+   <p><b><span class="mini-icon special">🛡</span>방어권</b><br>보유 후, 점수가 깎이는 효과 1회를 무효화. 강탈·교환 대상이 됐을 때는 물론, 내가 연 박스에서 마이너스가 나와도 막을 수 있음. 단, 박스 마이너스는 몇 점인지 보기 전에 사용 여부를 먼저 정해야 함(블라인드).</p>
+   <p><b><span class="mini-icon reverse">⌛</span>순위 뒤집기</b><br>현재 1등과 꼴등의 점수 교환</p>
+   <p><b><span class="mini-icon jackpot">✦</span>잭팟 +1000</b></p>
+   </div>
+   <div class="row" style="justify-content:flex-end;margin-top:14px;">
+     <button class="btn" onclick="closeModal()">닫기</button></div>`);
+}
+document.getElementById("modalBg").addEventListener("click",e=>{
+  if(e.target.id==="modalBg") closeModal();
+});
+
+/* ============== 정답지 (이번 게임의 카드 배치 기준, 새 창 + 인쇄) ============== */
+function openAnswerKey(){
+  if(!state || state.phase==="setup"){ alert("게임을 먼저 시작한 뒤 정답지를 열 수 있어요."); return; }
+
+  const rows=CARD_LABELS.map(lbl=>{
+    const q=state.questions[lbl]||{};
+    const solved=state.solved.includes(lbl);
+    return `<tr class="${solved?'solved':''}">
+      <td class="c-card">${escapeHtml(lbl)}</td>
+      <td class="c-subj">${escapeHtml(q.subject||'')}<br>${escapeHtml(q.difficulty||'')}<br><small>${escapeHtml(q.id||'')}</small></td>
+      <td class="c-q">${q.type==='LUCKY'?'🍀 LUCKY (문제 없음)':formatQuestion(q.q||'')}${figHtml(q.fig)}${(q.choices&&q.choices.length)?'<br><span style="color:#777;font-size:12px;">'+q.choices.map((c,i)=>escapeHtml((i+1)+'. '+c)).join('&nbsp; ')+'</span>':''}</td>
+      <td class="c-a">${escapeHtml(q.a||'')}</td>
+      <td class="c-e">${escapeHtml(q.e||'')}</td>
+    </tr>`;
+  }).join("");
+  const doc=`<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+  <title>정답지 - 팀 퀴즈 배틀</title>
+  <style>
+    body{font-family:"Malgun Gothic","Segoe UI",sans-serif; margin:0; padding:24px; color:#16181f; background:#fff;}
+    .bar{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:6px;}
+    h1{font-size:22px; margin:0;}
+    .note{color:#b00; font-size:13px; margin:4px 0 14px;}
+    button{font:inherit; font-weight:700; padding:9px 18px; border:none; border-radius:8px;
+      background:#3b5bff; color:#fff; cursor:pointer;}
+    table{border-collapse:collapse; width:100%; font-size:14px;}
+    th,td{border:1px solid #ccc; padding:7px 9px; vertical-align:top; text-align:left;}
+    th{background:#2a2f63; color:#fff; position:sticky; top:0;}
+    .c-card{font-weight:800; text-align:center; width:48px; background:#f1f3ff;}
+    .c-subj{width:105px; color:#544029; font-weight:700; overflow-wrap:anywhere;}
+    .c-a{font-weight:800; color:#0a7f3f; width:140px;}
+    .c-e{color:#555; width:230px;}
+    .c-q table.qtable{border-collapse:collapse; width:auto; margin:5px 0; font-size:12px;}
+    .c-q table.qtable td{border:1px solid #999; padding:3px 9px; text-align:center; white-space:nowrap;}
+    .c-q .qspace{height:3px;} .c-q div{margin:1px 0;}
+    .c-q .qfig svg{width:220px; height:auto; color:#16181f; display:block; margin:4px 0;}
+    tr.solved{opacity:.5; text-decoration:line-through;}
+    @media print{ .bar button{display:none;} .note{color:#000;} th{position:static;} }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"><\/script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"><\/script>
+  </head><body>
+    <div class="bar">
+      <h1>🗝 정답지 — 이번 게임 (카드 순)</h1>
+      <button onclick="window.print()">🖨 인쇄</button>
+    </div>
+    <p class="note">⚠️ 학생에게 보이지 않도록 주의하세요. (이번 게임 배치 기준 · 취소선 = 이미 푼 문제)</p>
+    <table>
+      <thead><tr><th>카드</th><th>과목 · 난이도 · ID</th><th>문제</th><th>정답</th><th>풀이</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <script>window.addEventListener('load',function(){try{renderMathInElement(document.body,{delimiters:[{left:'\\\\(',right:'\\\\)',display:false},{left:'\\\\[',right:'\\\\]',display:true}],throwOnError:false});}catch(e){}});<\/script>
+  </body></html>`;
+  const w=window.open("","_blank","width=920,height=760");
+  if(!w){ alert("팝업이 차단되었습니다. 브라우저에서 이 페이지의 팝업을 허용한 뒤 다시 눌러 주세요."); return; }
+  w.document.open(); w.document.write(doc); w.document.close();
+}
+function importFromJsonText(raw){
+  raw=(raw||"").trim();
+  if(!raw) return {error:"내용이 비어 있습니다."};
+  let data;
+  try{ data=JSON.parse(raw); }
+  catch(e){ return {error:"JSON 형식 오류: "+e.message}; }
+  const qs=normalizeImport(data);
+  if(!qs.length) return {error:"문제를 찾지 못했습니다. 형식을 확인해 주세요."};
+  localStorage.setItem(QSET_KEY, JSON.stringify(qs));
+  updateQSetStatus();
+  return {count:qs.length};
+}
+function exportQuestions(){
+  const data=activeQuestions();
+  const blob=new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url; a.download="questions.json"; document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+
+
+const $ = id => document.getElementById(id);
+const icon = (name,cls="") => `<svg aria-hidden="true" class="${cls}"><use href="#${name}"/></svg>`;
+const TEAM_COLORS=["#425c85","#47663e","#95483e","#806227","#71517e","#336c6b"];
+const crest=i=>`<span class="crest" aria-hidden="true" style="--team:${TEAM_COLORS[i]}">${["✦","♜","◆","☀","✧","♞"][i]}</span>`;
+const teamName=i=>escapeHtml(state.teams[i].name);
+const reduce=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
+const QSET_KEY="quizQuestions_v2", SAVE_KEY="quizGameState_v2", SOUND_KEY="quizSound_v2";
+let defaults=[];
+try{defaults=normalizeImport(JSON.parse($("default-questions").textContent))}catch{}
+function customQuestions(){
+  try{return normalizeImport(JSON.parse(localStorage.getItem(QSET_KEY)))}catch{return []}
+}
+function activeQuestions(){const custom=customQuestions();return custom.length?custom:defaults}
+function buildGameQuestions(){
+  const list=shuffle([...activeQuestions()]);
+  return Object.fromEntries(CARD_LABELS.map((label,i)=>[label,list[i]||{q:"빈 카드",a:"—",e:"",choices:[],type:"",subject:"",fig:"",id:"",difficulty:""}]));
+}
+function getQ(lbl){return state.questions[lbl]}
+function figHtml(source){
+  if(!source)return "";
+  const root=new DOMParser().parseFromString(source,"image/svg+xml").documentElement;
+  if(root.localName!=="svg")return "";
+  const tags=new Set("svg g defs path polygon polyline circle ellipse line rect text tspan title desc marker linearGradient radialGradient stop clipPath pattern".split(" "));
+  const attrs=new Set("xmlns viewBox width height x y x1 x2 y1 y2 dx dy cx cy r rx ry points d fill stroke opacity fill-opacity stroke-opacity stroke-width stroke-linejoin stroke-linecap stroke-dasharray fill-rule font-size font-family font-weight font-style text-anchor dominant-baseline transform id offset stop-color markerWidth markerHeight refX refY orient marker-end marker-start clip-path gradientUnits patternUnits preserveAspectRatio".split(" "));
+  for(const el of [root,...root.querySelectorAll("*")]){
+    if(!tags.has(el.localName)){el.remove();continue}
+    for(const a of [...el.attributes]){
+      if(!attrs.has(a.name)||(/url\s*\(/i.test(a.value)&&!/^url\(#[\w.-]+\)$/.test(a.value)))el.removeAttributeNode(a);
+    }
+  }
+  return `<div class="qfig">${new XMLSerializer().serializeToString(root)}</div>`;
+}
+let setupTeamCount=3,setupNames=["","",""];
+let state=null,timerId=null,audioCtx=null,previousScores=[],skipMotion=null;
+let muted=false;
+try{muted=localStorage.getItem(SOUND_KEY)==="off"}catch{}
+function soundLabel(){$("btnSound").textContent=muted?"소리 꺼짐":"소리 켜짐";$("btnSound").setAttribute("aria-pressed",String(!muted))}
+function toggleSound(){muted=!muted;try{localStorage.setItem(SOUND_KEY,muted?"off":"on")}catch{}soundLabel();if(!muted)tone([520],.08)}
+function tone(notes,duration=.12){
+  if(muted)return;
+  try{
+    audioCtx=audioCtx||new AudioContext();if(audioCtx.state==="suspended")audioCtx.resume().catch(()=>{});
+    notes.forEach((freq,i)=>{const osc=audioCtx.createOscillator(),g=audioCtx.createGain(),t=audioCtx.currentTime+i*(duration+.04);
+      osc.type="triangle";osc.frequency.value=freq;g.gain.setValueAtTime(.001,t);g.gain.exponentialRampToValueAtTime(.16,t+.012);g.gain.exponentialRampToValueAtTime(.001,t+duration);
+      osc.connect(g);g.connect(audioCtx.destination);osc.start(t);osc.stop(t+duration+.01)});
+  }catch{}
+}
+function go(name){
+  clearInterval(timerId);timerId=null;
+  document.querySelectorAll(".screen").forEach(el=>el.classList.toggle("active",el.id==="s-"+name));
+  $("btnNewGame").hidden=$("btnAnswerKey").hidden=name==="setup";
+  if(state){state.phase=name;if(name==="board")renderBoard();save()}
+  window.scrollTo(0,0);
+}
+function renderTeamNameInputs(){
+  $("teamNames").innerHTML=Array.from({length:setupTeamCount},(_,i)=>`<label class="teamrow">${crest(i)}<input id="tname${i}" aria-label="팀 ${i+1} 이름" placeholder="팀 ${i+1}" value="${escapeHtml(setupNames[i])}" oninput="setupNames[${i}]=this.value"></label>`).join("");
+}
+function renderOrder(){
+  $("orderList").innerHTML=state.turnOrder.map((i,pos)=>`<div class="orderchip" style="animation-delay:${pos*.14}s">${crest(i)}<small>${pos+1}번째</small>${teamName(i)}</div>`).join("");
+}
+function scoreCards(active=-1){
+  return state.turnOrder.map(i=>{const t=state.teams[i];
+    return `<div class="scorecard ${i===active?"turn":""}">${crest(i)}<span class="tname">${teamName(i)}</span><b class="tscore" data-score="${i}">${t.score}</b>${t.shields?`<span class="shields">🛡${t.shields}</span>`:""}</div>`;
+  }).join("");
+}
+function rollScores(box,from){
+  if(reduce())return;
+  box.querySelectorAll("[data-score]").forEach(el=>{
+    const i=Number(el.dataset.score),end=state.teams[i].score,start=from[i]??end;
+    if(start===end)return;
+    const time=performance.now();
+    function frame(now){const t=Math.min(1,(now-time)/600);el.textContent=Math.round(start+(end-start)*(1-(1-t)**3));if(t<1&&el.isConnected)requestAnimationFrame(frame)}
+    requestAnimationFrame(frame);
+  });
+}
+function renderBoard(){
+  const cur=state.turnOrder[state.turnPos];
+  $("turnBanner").textContent=state.teams[cur].name+"의 차례";
+  $("scoreboard").innerHTML=scoreCards(cur);rollScores($("scoreboard"),previousScores);previousScores=state.teams.map(t=>t.score);
+  $("grid").innerHTML=CARD_LABELS.map((lbl,i)=>{const done=state.solved.includes(lbl);
+    return `<button class="qcard ${done?"done":""}" ${done?"disabled":""} style="--tilt:${((i*37)%41-20)/10}deg" aria-label="카드 ${lbl}" onclick="selectCard('${lbl}',this)">${icon("star")}<span class="lbl">${lbl}</span></button>`;
+  }).join("");
+  $("remainCount").textContent=50-state.solved.length;$("undoBtn").disabled=!state.history.length;
+}
+// Capture the skip click before it can select the card underneath the animation.
+document.addEventListener("click",e=>{if(skipMotion){e.preventDefault();e.stopImmediatePropagation();skipMotion()}},true);
+function sequence(duration,finish){
+  const complete=()=>{if(skipMotion!==complete)return;clearTimeout(timeout);skipMotion=null;finish()};
+  const timeout=setTimeout(complete,duration);skipMotion=complete;
+}
+function enterTable(){
+  go("board");if(reduce())return;
+  const dealer=document.createElement("div");dealer.className="dealer";dealer.innerHTML=icon("hand");$("grid").parentElement.append(dealer);
+  const origin=dealer.getBoundingClientRect();
+  const motions=[...$("grid").children].map((el,i)=>{const r=el.getBoundingClientRect();
+    return el.animate([{transform:`translate(${origin.x-r.x}px,${origin.y-r.y}px) rotate(-18deg) scale(.8)`,opacity:0},{offset:.18,opacity:1},{transform:`rotate(${el.style.getPropertyValue("--tilt")})`,opacity:1}],{duration:360,delay:i*44,fill:"backwards",easing:"ease-out"})});
+  sequence(2520,()=>{motions.forEach(a=>a.cancel());dealer.remove();tone([380],.045)});
+}
+function selectCard(lbl,button){
+  if(state.phase!=="board"||state.solved.includes(lbl)||skipMotion)return;
+  snapshot();state.currentCard=lbl;tone([330,490],.05);
+  if(reduce()||!button){showQuestion(lbl);return}
+  const r=button.getBoundingClientRect(),copy=button.cloneNode(true);
+  copy.removeAttribute("onclick");copy.className="flying-card";copy.style.cssText=`left:${r.x}px;top:${r.y}px;width:${r.width}px;height:${r.height}px`;
+  document.body.append(copy);button.style.visibility="hidden";
+  const dx=(innerWidth-r.width)/2-r.x,dy=(innerHeight-r.height)/2-r.y;
+  const animation=copy.animate([{transform:"perspective(700px) rotateY(0)"},{offset:.5,transform:`translate(${dx*.8}px,${dy*.8}px) perspective(700px) rotateY(90deg) scale(1.7)`},{transform:`translate(${dx}px,${dy}px) perspective(700px) rotateY(180deg) scale(3.2)`}],{duration:580,fill:"forwards"});
+  const flip=setTimeout(()=>{copy.classList.add("front");copy.innerHTML=icon("star")},285);
+  sequence(580,()=>{clearTimeout(flip);animation.cancel();copy.remove();showQuestion(lbl)});
+}
+function showQuestion(lbl){
+  const q=getQ(lbl),team=state.teams[state.turnOrder[state.turnPos]].name;
+  if(q.type==="LUCKY"){
+    $("luckyTurn").textContent=team+" 차례 · 카드 "+lbl;go("lucky");return;
+  }
+  $("qStageTurn").textContent=team+" 차례";$("qLabel").textContent=lbl;$("qSubject").textContent=q.subject;
+  $("qStars").textContent=({하:"★",중:"★★",상:"★★★"})[q.difficulty]||"";$("qStars").setAttribute("aria-label","난이도 "+(q.difficulty||"미지정"));
+  const len=q.q.length,fig=figHtml(q.fig),ox=q.type==="OX",choices=ox?["O","X"]:q.choices,side=!!(fig&&choices.length);
+  $("qText").className="qtext "+(len<40?"len-s":len<95?"len-m":len<175?"len-l":"len-xl");
+  $("qText").innerHTML=formatQuestion(q.q)+(side?"":fig);
+  const list=choices.map((c,i)=>`<div class="choice">${ox?"":`<span class="cnum">${"①②③④⑤⑥⑦⑧"[i]||i+1+"."}</span>`}${escapeHtml(c)}</div>`).join("");
+  $("qChoices").className="qchoices "+(side?"withfig":ox?"ox":"");$("qChoices").innerHTML=side?fig+`<div class="chcol">${list}</div>`:list;
+  $("qAnswer").replaceChildren();$("qActions").innerHTML='<button class="primary" onclick="revealAnswer()">정답 공개</button>';
+  renderMath($("qText"));renderMath($("qChoices"));go("question");startTimer();
+}
+function startTimer(){
+  let remain=state.timeLimit;
+  const el=$("timer");el.innerHTML='<svg viewBox="0 0 30 44" aria-hidden="true"><path d="M3 3h24M3 41h24M5 5q0 9 10 16Q5 30 5 39h20q0-10-10-18Q25 14 25 5z" fill="none" stroke="#775c36" stroke-width="2.5"/><path id="sand" d="M7 8h16l-8 11z" fill="#ae772a" style="transform-origin:15px 19px"/><path id="sandBase" d="m7 37 8-10 8 10z" fill="#ae772a" style="transform-origin:15px 37px"/></svg><b></b>';
+  function tick(){el.className="timer"+(remain<=5?" warn":"");el.querySelector("b").textContent=remain+"초";$("sand").style.transform="scaleY("+remain/state.timeLimit+")";$("sandBase").style.transform="scaleY("+(1-remain/state.timeLimit)+")"}
+  tick();timerId=setInterval(()=>{if(--remain>0){tick();return}clearInterval(timerId);timerId=null;el.className="timer done";el.innerHTML=icon("seal")+"시간 종료";tone([880,880,880],.14)},1000);
+}
+function revealAnswer(){
+  if(state.phase!=="question"||$("qAnswer").childElementCount)return;
+  clearInterval(timerId);timerId=null;
+  const q=getQ(state.currentCard),hasExp=!!q.e.trim();
+  $("qAnswer").innerHTML=`<div class="answer-reveal">${icon("seal")}<b class="lab">정답</b>${escapeHtml(q.a)}</div>${hasExp?`<div class="explain" id="qExplain" hidden><b class="lab">풀이</b>${escapeHtml(q.e)}</div>`:""}`;
+  const choices=q.type==="OX"?["O","X"]:q.choices;
+  const cleaned=q.a.trim(),index=choices.findIndex(c=>c.trim()===cleaned);
+  const circled="①②③④⑤⑥⑦⑧".indexOf(cleaned[0]);
+  const n=index>=0?index:circled>=0?circled:/^[1-8](?:번)?$/.test(cleaned)?parseInt(cleaned)-1:-1;
+  $("qChoices").querySelectorAll(".choice")[n]?.classList.add("correct");
+  $("qActions").innerHTML=(hasExp?'<button id="expBtn" onclick="toggleExplain()">풀이 보기</button>':'')+'<button class="primary" onclick="openMysteryBox()">보물상자 열기</button><button onclick="finishQuestion()">보상 없이 테이블로</button>';
+  renderMath($("qAnswer"));
+}
+function toggleExplain(){const el=$("qExplain");el.hidden=!el.hidden;$("expBtn").textContent=el.hidden?"풀이 보기":"풀이 숨기기"}
+
+
+
+function chest(open=false){return `<svg aria-hidden="true" viewBox="0 0 240 155" class="chest-art ${open?"open-chest":""}">${open?'<g class="rays" fill="#f6cd6b"><path d="m69 75-31-61 49 55L76 0l35 68 22-67-3 67 51-58-35 64z"/></g>':""}${$("chest").innerHTML}</svg>`}
+function openMysteryBox(){
+  if(state.phase!=="lucky"&&!(state.phase==="question"&&$("qAnswer").childElementCount))return;
+  go("box");
+  showBoxChoice(state.turnOrder[state.turnPos]);
+}
+function showBoxChoice(team){
+  const lucky=getQ(state.currentCard).type==="LUCKY";
+  $("boxStage").innerHTML=chest()+`
+    <h2>상자를 어떻게 할까요?</h2>
+    <p>${lucky?"카드를 뽑은 팀":"문제를 맞힌 팀"} · <b>${teamName(team)}</b>
+      ${lucky?"":'<button class="btn sm" onclick="pickAnsweringTeam()">맞힌 팀 변경</button>'}</p>
+    <div class="teampick">
+      <button class="primary" onclick="receiveBox(${team})">갖는다</button>
+      <button onclick="pickBoxRecipient(${team})">넘긴다</button>
+    </div>`;
+}
+function boxTeamButton(i,action){
+  const team=state.teams[i];
+  return `<button onclick="${action}(${i})">${crest(i)}${teamName(i)}
+    <span class="ps">${team.score}점 · 방어권 ${team.shields}개</span></button>`;
+}
+function pickAnsweringTeam(){
+  modal(`<h2>어느 팀이 맞혔나요?</h2>
+    <div class="teampick">${state.turnOrder.map(i=>boxTeamButton(i,"chooseAnsweringTeam")).join("")}</div>
+    <div class="row"><button onclick="closeModal()">취소</button></div>`);
+}
+function chooseAnsweringTeam(i){
+  closeModal();
+  showBoxChoice(i);
+}
+function pickBoxRecipient(team){
+  const others=state.turnOrder.filter(i=>i!==team);
+  $("boxStage").innerHTML=chest()+`
+    <h2>어느 팀에 넘길까요?</h2><p>상자를 넘기는 팀 · <b>${teamName(team)}</b></p>
+    <div class="teampick">${others.map(i=>boxTeamButton(i,"receiveBox")).join("")}</div>
+    <div style="margin-top:18px"><button onclick="showBoxChoice(${team})">뒤로</button></div>`;
+}
+function rewardStyle(r){
+  if(r.jackpot)return ["jackpot","✦"];
+  if(r.kind==="coin")return r.val>0?["plus","◉"]:["minus","◉"];
+  if(r.kind==="loseall")return ["danger","☠"];
+  if(r.kind==="shield")return ["special","🛡"];
+  if(r.kind==="reverse")return ["reverse","⌛"];
+  return ["chance","✧"];
+}
+function receiveBox(i){
+  const r=drawReward();state.pendingReward=r;state.pendingOpener=i;
+  $("boxStage").innerHTML=chest()+"<h2>"+teamName(i)+"의 보물상자</h2>";$("boxStage").querySelector("svg").classList.add("shaking");
+  const open=()=>{tone([392,494,587],.09);if(r.kind==="steal"||r.kind==="change")showTargetPick(i,r);else revealReward(i,r,null)};
+  if(reduce())open();else sequence(800,open);
+}
+let pendingApply=null;
+function showShieldPrompt(defender,kind,blind){
+  $("boxStage").innerHTML=chest(true);
+  modal(`${blind?`<div class="hidden-reward">${icon("star")}</div>`:""}<h2>🛡 방어권을 쓸까요?</h2><p>${teamName(defender)} · 보유 방어권 ${state.teams[defender].shields}개</p><p>${blind?"상자를 연 팀에 손해가 생겼습니다. 효과는 선택한 뒤 공개합니다.":escapeHtml(kind)+" 효과로 점수가 줄어듭니다."}</p><div class="row"><button class="primary" onclick="useShield(${defender})">방어권 사용</button><button onclick="skipShield()">방어 안 함</button></div>`,true);
+}
+function useShield(i){
+  const p=pendingApply;if(!p||i!==p.defender)return;
+  pendingApply=null;state.teams[i].shields--;closeModal(true);
+  rewardResult(p.reward,p.title,p.desc,state.teams.map(t=>t.score),i);
+}
+function skipShield(){
+  const p=pendingApply;if(!p)return;
+  pendingApply=null;closeModal(true);doApply(p.applyFn,p.openerIdx,p.reward,p.targetIdx,p.title,p.cls,p.desc);
+}
+function doApply(applyFn,openerIdx,reward,targetIdx,title,cls,desc){
+  const before=state.teams.map(t=>t.score);applyFn();rewardResult(reward,title,desc,before);
+}
+function rewardResult(reward,title,desc,before,shield=null){
+  state.rewardResolved=true;save();
+  const [style,symbol]=rewardStyle(reward);
+  const blocked=shield!==null;
+  $("boxStage").innerHTML=chest(true)+(blocked?`<h2 class="stamp">${icon("seal")}<span class="shield-hit">🛡</span> 방어 성공</h2><p>${teamName(shield)}의 방어권으로 막았습니다.</p>`:"")+
+    `<div class="reveal-big ${style}"><span aria-hidden="true" class="${style==="reverse"?"reverse-icon":""}">${symbol}</span> ${blocked?"<s>"+escapeHtml(title)+"</s>":escapeHtml(title)}</div><p class="reveal-desc">${escapeHtml(desc)}</p><div class="scoreboard">${scoreCards()}</div><button class="primary" onclick="finishQuestion()">테이블로 돌아가기</button>`;
+  rollScores($("boxStage"),before);
+  if(blocked)return;
+  if(style==="danger"||style==="minus")tone([294,220,147]);else if(reward.jackpot)tone([392,494,587,784,988],.13);
+  if(reward.kind==="coin"||style==="danger")particles(style);
+}
+function particles(style){
+  if(reduce())return;
+  const fx=document.createElement("div");fx.className="rain "+(style==="jackpot"?"flash":style==="danger"?"dark-flash":"");
+  const count=style==="danger"?0:style==="plus"||style==="minus"?10:45;
+  for(let i=0;i<count;i++){const coin=document.createElement("i");coin.style.left=(Math.random()*100)+"%";coin.style.animationDelay=(Math.random()*.33)+"s";if(style==="minus")coin.style.animationDirection="reverse";fx.append(coin)}
+  document.body.append(fx);const finish=()=>{fx.remove();document.removeEventListener("click",finish,true)};setTimeout(finish,1600);document.addEventListener("click",finish,true);
+}
+function endGame(){
+  const sorted=state.teams.map((t,i)=>({...t,i})).sort((a,b)=>b.score-a.score);
+  let rank=0,prev=null;const podium=[],rest=[];
+  for(const [idx,t] of sorted.entries()){
+    if(prev===null||t.score!==prev){rank=idx+1;prev=t.score}
+    const name=`<span class="rankname">${escapeHtml(t.name)}</span>`;
+    if(rank<=3)podium.push(`<div class="place" data-rank="${rank}"><strong>${rank===1?"♛ ":""}${rank}위</strong>${crest(t.i)}<b>${name}</b>${t.score}점</div>`);
+    else rest.push(`<div class="rankrow"><b>${rank}위</b>${name}<b>${t.score}점</b></div>`);
+  }
+  $("rankList").innerHTML=`<div class="podium">${podium.join("")}</div>${rest.join("")}`;go("result");particles("jackpot");
+}
+let modalLocked=false;
+function modal(html,locked=false){document.querySelector("main").inert=true;document.querySelector("header").inert=true;modalLocked=locked;$("modalContent").innerHTML=html;$("modalBg").classList.add("show");$("modalContent").querySelector("button,input")?.focus()}
+function closeModal(force=false){if(modalLocked&&!force)return;document.querySelector("main").inert=false;document.querySelector("header").inert=false;modalLocked=false;$("modalBg").classList.remove("show");$("modalContent").replaceChildren()}
+function updateQSetStatus(){const n=activeQuestions().length;$("qsetStatus").textContent=n?(customQuestions().length?"불러온 문제 ":"내장 문제 ")+n+"개":"내장 문제 없음 — JSON을 불러오세요";$("startBtn").disabled=!n}
+function openImport(){modal('<h2>문제 불러오기</h2><p>문제가 들어 있는 JSON 파일을 고르거나 여기에 놓으세요.</p><label class="filebtn">JSON 파일 선택<input type="file" accept=".json,application/json" id="impFile" onchange="importFromFile(this)" style="display:block;max-width:100%"></label><p id="impMsg" role="status"></p><button onclick="closeModal()">닫기</button>')}
+function importFromFile(input){
+  const file=input.files?.[0];if(!file)return;const msg=$("impMsg")||$("setupMsg");
+  const reader=new FileReader();reader.onload=()=>{try{const res=importFromJsonText(reader.result);if(res.error)throw new Error(res.error);closeModal();$("setupMsg").textContent=""}catch(err){msg.textContent=file.name+" — "+err.message}if(input.tagName==="INPUT")input.value=""};
+  reader.onerror=()=>{msg.textContent="파일을 읽지 못했습니다."};reader.readAsText(file,"utf-8");
+}
+function resetToDefault(){
+  if(customQuestions().length&&!confirm("불러온 문제를 지우고 내장 문제로 돌아갈까요?"))return;
+  localStorage.removeItem(QSET_KEY);$("setupMsg").textContent="";updateQSetStatus();
+}
+function resetGame(){
+  if(state&&state.phase!=="result"&&!confirm("진행 중인 게임을 끝내고 새로 시작할까요?"))return;
+  localStorage.removeItem(SAVE_KEY);pendingApply=null;state=null;previousScores=[];setupTeamCount=3;setupNames=["","",""];
+  $("teamCountLbl").textContent=3;$("timeLimit").value=30;renderTeamNameInputs();updateQSetStatus();go("setup");
+}
+function tryResume(){
+  let saved;try{saved=JSON.parse(localStorage.getItem(SAVE_KEY))}catch{return}
+  if(!saved?.teams?.length||!saved.questions||!CARD_LABELS.every(l=>saved.questions[l])||!saved.turnOrder?.length)return;
+  modal('<h2>지난 게임을 이어갈까요?</h2><p>저장한 팀, 점수, 카드 배치로 돌아갑니다.</p><div class="row"><button class="primary" id="resumeBtn">이어하기</button><button id="discardBtn">새 게임</button></div>');
+  $("resumeBtn").onclick=()=>{closeModal();state=saved;if(state.phase==="result"){endGame();return}
+    if(state.rewardResolved){finishQuestion();return}
+    if(state.currentCard){const snap=state.history.pop();if(snap){const prior=JSON.parse(snap);Object.assign(state,prior)}state.currentCard=null;state.pendingReward=null}
+    go("board");
+  };
+  $("discardBtn").onclick=()=>{localStorage.removeItem(SAVE_KEY);closeModal()};
+}
+for(const area of [$("dropZone"),$("modalContent")]){
+  area.addEventListener("dragover",e=>{if(state||area===$("modalContent")&&!$("impFile"))return;e.preventDefault();area.classList.add("over")});
+  area.addEventListener("dragleave",()=>area.classList.remove("over"));
+  area.addEventListener("drop",e=>{e.preventDefault();area.classList.remove("over");if(!state&&(area===$("dropZone")||$("impFile")))importFromFile(e.dataTransfer)});
+}
+document.addEventListener("keydown",e=>{
+  const dialog=$("modalBg").classList.contains("show");
+  if(e.target.matches("input,textarea,select,[contenteditable=true]"))return;
+  if(dialog){if(e.key==="Escape"){e.preventDefault();closeModal()}return}
+  if(!state||skipMotion||e.repeat)return;
+  if(e.code==="Space"&&state.phase==="question"&&!$("qAnswer").childElementCount){e.preventDefault();revealAnswer()}
+  if(e.key.toLowerCase()==="b")openMysteryBox();
+  if(e.ctrlKey&&e.key.toLowerCase()==="z"&&state.phase==="board"){e.preventDefault();undo()}
+});
+function loadMath(){
+  if(!navigator.onLine)return;
+  const font=document.createElement("link");font.rel="stylesheet";font.href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&display=swap";document.head.append(font);
+  const base="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/";
+  const sheet=document.createElement("link");sheet.rel="stylesheet";sheet.href=base+"katex.min.css";document.head.append(sheet);
+  const load=(url,next)=>{const script=document.createElement("script");script.src=base+url;script.onload=next;document.head.append(script)};
+  load("katex.min.js",()=>load("contrib/auto-render.min.js",()=>renderMath($("s-question"))));
+}
+renderTeamNameInputs();updateQSetStatus();soundLabel();tryResume();loadMath();
+for(let i=0;i<9;i++){const star=document.createElement("span");star.className="glint";star.setAttribute("aria-hidden","true");star.textContent="✦";star.style.cssText=`top:${8+i*10}%;left:${i%2?6:90}%;animation-delay:${i*-.21}s`;document.querySelector(".lucky-card").append(star)}
+
+</script></body></html>
