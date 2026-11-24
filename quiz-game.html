@@ -1185,7 +1185,7 @@ let musicFrame = 0;
 let musicRequest = 0;
 
 function currentMusic() {
-  return !state || state.phase === "setup" ? musicTracks.setup : musicTracks.game;
+  return !state || state.phase === "setup" || state.phase === "order" ? musicTracks.setup : musicTracks.game;
 }
 function musicLabel() {
   const playing = musicEnabled && !currentMusic().paused;
