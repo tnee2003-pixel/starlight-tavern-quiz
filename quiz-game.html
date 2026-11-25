@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>별빛 선술집 · 팀 퀴즈 배틀</title>
+<title>별빛 다락방 · 팀 퀴즈 배틀</title>
 <style>
 :root{--wood-dark:#2a1a10;--wood:#5a3a22;--wood-light:#8a5a32;--parchment:#efe0bd;--parchment-dark:#c9ad78;--ink:#2b1d12;--gold:#e0b04a;--candle:#ffb347;--wax-red:#9c2a22;--emerald:#3f8f5a;--serif:"Gowun Batang","Malgun Gothic",serif;--grain:repeating-linear-gradient(2deg,#d19a5422 0 1px,transparent 2px 8px,#29190c33 9px 11px,transparent 13px 25px);--paper:radial-gradient(ellipse at 3% 5%,#bf904d44,transparent 22%),radial-gradient(ellipse at 97% 99%,#aa763936,transparent 25%),linear-gradient(110deg,#f0dfb9,#f8edcf 51%,#e9d3a7)}
 *{box-sizing:border-box}[hidden]{display:none!important}body{margin:0;color:#f3e6c9;font:16px/1.5 "Malgun Gothic",sans-serif;min-height:100vh;background:radial-gradient(ellipse at 50% 48%,transparent 30%,#0b0908b8 100%),repeating-linear-gradient(178deg,transparent 0 5px,#9c724410 6px 7px,transparent 8px 16px),repeating-linear-gradient(0deg,#30241c 0,#30241c 70px,#1b1612 73px,#473326 76px,#392a20 79px,#35271e 145px);font-variant-numeric:tabular-nums}
@@ -85,7 +85,7 @@
 <symbol id="seal" viewBox="0 0 64 64"><path fill="#922f28" stroke="#65261c" stroke-width="2" d="M31 3q8-2 13 4l10 5 3 10q7 7 3 15l-4 11-10 6q-7 8-16 5l-11-2-7-8q-9-4-8-14l1-10q0-9 9-13l8-6z"/><circle cx="32" cy="32" r="20" fill="none" stroke="#d67a59"/><path d="m22 32 7 7 14-17" stroke="#f3ce9b" stroke-width="4" fill="none"/></symbol>
 </defs></svg>
 <div class="ambient left"><svg><use href="#candle"/></svg></div><div class="ambient right"><svg><use href="#candle"/></svg></div>
-<header><div class="brand"><svg><use href="#star"/></svg> 별빛 선술집</div><nav>
+<header><div class="brand"><svg><use href="#star"/></svg> 별빛 다락방</div><nav>
 <button id="btnAnswerKey" onclick="openAnswerKey()" hidden>정답지</button><button id="btnMusic" aria-pressed="false" onclick="toggleMusic()">배경음 재생</button><button id="btnSound" onclick="toggleSound()"></button><button onclick="openHelp()">도움말</button><button id="btnNewGame" onclick="resetGame()" hidden>새 게임</button></nav></header>
 <main>
 <section class="screen active" id="s-setup"><div class="setup-board">
@@ -96,7 +96,7 @@
 <g transform="translate(149 29) rotate(-4 60 90)"><use href="#card-art" width="120" height="178"/></g>
 <g transform="translate(196 42) rotate(17 60 90)"><use href="#card-art" width="120" height="178"/></g>
 <g transform="translate(253 212) rotate(-12)" stroke="#9a6e32" fill="#d4aa5d"><ellipse cy="5" rx="23" ry="8"/><ellipse rx="23" ry="8"/><ellipse rx="16" ry="4" fill="none"/></g></svg>
-<div class="edition">중학교 2학년 · 기말고사</div><h1>별빛 선술집</h1><div class="subtitle"><i></i>팀 퀴즈 배틀<i></i></div>
+<div class="edition">중학교 2학년 · 기말고사</div><h1>별빛 다락방</h1><div class="subtitle"><i></i>팀 퀴즈 배틀<i></i></div>
 </div>
 <div class="sheet setup-sheet"><h2>모험 준비</h2>
 <div class="settings"><div><label class="fld">참가 팀</label><div class="step"><button aria-label="팀 줄이기" onclick="changeTeamCount(-1)">−</button><b><span id="teamCountLbl">3</span>팀</b><button aria-label="팀 늘리기" onclick="changeTeamCount(1)">＋</button></div></div>
